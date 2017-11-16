@@ -5,6 +5,7 @@ import static org.usfirst.frc.team1836.robot.Constants.Hardware;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.PathFollower;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.Arrays;
+import org.usfirst.frc.team1836.robot.Constants;
 import org.usfirst.frc.team1836.robot.loops.Loop;
 import org.usfirst.frc.team1836.robot.loops.Looper;
 import org.usfirst.frc.team1836.robot.util.DriveSignal;
@@ -78,6 +80,14 @@ public class Drive extends Subsystem {
 
 		mCSVWriter = new ReflectingCSVWriter<DriveDebugOutput>("/home/lvuser/DRIVE-LOGS.csv",
 				DriveDebugOutput.class);
+
+		leftfwdtalon.changeControlMode(TalonControlMode.Speed);
+		rightfwdtalon.changeControlMode(TalonControlMode.Speed);
+		leftbacktalon.changeControlMode(TalonControlMode.Follower);
+		rightbacktalon.changeControlMode(TalonControlMode.Follower);
+		leftbacktalon.set(Hardware.LEFT_FWD_TALON_ID);
+		rightbacktalon.set(Hardware.RIGHT_FWD_TALON_ID);
+		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
 	}
 
 	public static Drive getInstance() {
@@ -167,6 +177,12 @@ public class Drive extends Subsystem {
 		updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
 	}
 
+	public synchronized void setVelocitySetpoint(DriveSignal sig) {
+		configureTalonsForSpeedControl();
+		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
+		updateVelocitySetpoint(sig.getLeft() * DRIVE.MAX_VEL, sig.getLeft() * DRIVE.MAX_VEL);
+	}
+
 	private void configureTalonsForSpeedControl() {
 		if (!usesTalonVelocityControl(mDriveControlState)) {
 			leftfwdtalon.changeControlMode(CANTalon.TalonControlMode.Speed);
@@ -181,6 +197,7 @@ public class Drive extends Subsystem {
 			rightfwdtalon.set(right_inches_per_sec);
 		}
 	}
+
 
 	public synchronized void resetEncoders() {
 		leftfwdtalon.setEncPosition(0);

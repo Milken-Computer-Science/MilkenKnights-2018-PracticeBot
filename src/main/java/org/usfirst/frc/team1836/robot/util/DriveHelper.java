@@ -38,6 +38,7 @@ public class DriveHelper {
 		return new DriveSignal(leftMotorSpeed, rightMotorSpeed);
 	}
 
+
 	protected static double limit(double num) {
 		if (num > 1.0) {
 			return 1.0;
