@@ -1,9 +1,6 @@
 *.class
 build/
 bin/
-*~
-.idea/
-*.iml
 dist/
 sysProps.xml
 *.out

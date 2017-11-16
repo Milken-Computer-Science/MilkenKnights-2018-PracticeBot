@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Arrays;
 import org.usfirst.frc.team1836.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1836.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1836.robot.auto.modes.StandStillMode;
@@ -14,110 +15,106 @@ import org.usfirst.frc.team1836.robot.subsystems.Drive;
 import org.usfirst.frc.team1836.robot.subsystems.Shooter;
 import org.usfirst.frc.team1836.robot.util.CrashTracker;
 
-import java.util.Arrays;
-
 public class Robot extends IterativeRobot {
 
-    private final SubsystemManager mSubsystemManager = new SubsystemManager(
-            Arrays.asList(Drive.getInstance(), Climber.getInstance(), Shooter.getInstance()));
-    private Looper mEnabledLooper = new Looper();
-    private SendableChooser<AutoModeBase> chooser = new SendableChooser<>();
-    private AutoModeExecuter mAutoModeExecuter = null;
+	private final SubsystemManager mSubsystemManager = new SubsystemManager(
+			Arrays.asList(Drive.getInstance(), Climber.getInstance(), Shooter.getInstance()));
+	private Looper mEnabledLooper = new Looper();
+	private SendableChooser<AutoModeBase> chooser = new SendableChooser<>();
+	private AutoModeExecuter mAutoModeExecuter = null;
 
-    @Override
-    public void robotInit() {
-        try {
-            CrashTracker.logRobotInit();
-            mSubsystemManager.registerEnabledLoops(mEnabledLooper);
-            CameraServer.getInstance().startAutomaticCapture().setResolution(640, 360);
-            chooser.addObject("No Auto", new StandStillMode());
-            SmartDashboard.putData("Auto mode", chooser);
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-        mSubsystemManager.zeroSensors();
-    }
+	@Override
+	public void robotInit() {
+		try {
+			CrashTracker.logRobotInit();
+			mSubsystemManager.registerEnabledLoops(mEnabledLooper);
+			CameraServer.getInstance().startAutomaticCapture().setResolution(640, 360);
+			chooser.addObject("No Auto", new StandStillMode());
+			SmartDashboard.putData("Auto mode", chooser);
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+		mSubsystemManager.zeroSensors();
+	}
 
-    @Override
-    public void autonomousInit() {
-        try {
-            CrashTracker.logAutoInit();
-            System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
-            if (mAutoModeExecuter != null) {
-                mAutoModeExecuter.stop();
-            }
-            mSubsystemManager.zeroSensors();
-            mAutoModeExecuter = null;
-            mEnabledLooper.start();
-            mAutoModeExecuter = new AutoModeExecuter();
-            mAutoModeExecuter.setAutoMode(chooser.getSelected());
-            mAutoModeExecuter.start();
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-    }
+	public void disabledInit() {
+		try {
+			CrashTracker.logDisabledInit();
 
-    @Override
-    public void autonomousPeriodic() {
-        allPeriodic();
-    }
+			if (mAutoModeExecuter != null) {
+				mAutoModeExecuter.stop();
+			}
+			mAutoModeExecuter = null;
 
-    @Override
-    public void teleopInit() {
-        try {
-            CrashTracker.logTeleopInit();
-            mEnabledLooper.start();
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-    }
+			mEnabledLooper.stop();
 
-    @Override
-    public void teleopPeriodic() {
-        try {
-            InputController.updateInputs();
-            allPeriodic();
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-    }
-
-    public void disabledInit() {
-        try {
-            CrashTracker.logDisabledInit();
-
-            if (mAutoModeExecuter != null) {
-                mAutoModeExecuter.stop();
-            }
-            mAutoModeExecuter = null;
-
-            mEnabledLooper.stop();
+			mSubsystemManager.stop();
 
 
-            mSubsystemManager.stop();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+	}
 
+	@Override
+	public void autonomousInit() {
+		try {
+			CrashTracker.logAutoInit();
+			System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
+			if (mAutoModeExecuter != null) {
+				mAutoModeExecuter.stop();
+			}
+			mSubsystemManager.zeroSensors();
+			mAutoModeExecuter = null;
+			mEnabledLooper.start();
+			mAutoModeExecuter = new AutoModeExecuter();
+			mAutoModeExecuter.setAutoMode(chooser.getSelected());
+			mAutoModeExecuter.start();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+	}
 
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-    }
+	@Override
+	public void teleopInit() {
+		try {
+			CrashTracker.logTeleopInit();
+			mEnabledLooper.start();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+	}
 
-    @Override
-    public void disabledPeriodic() {
+	@Override
+	public void disabledPeriodic() {
 
-        allPeriodic();
-    }
+		allPeriodic();
+	}
 
+	@Override
+	public void autonomousPeriodic() {
+		allPeriodic();
+	}
 
-    public void allPeriodic() {
-        mSubsystemManager.outputToSmartDashboard();
-        mSubsystemManager.writeToLog();
-        mEnabledLooper.outputToSmartDashboard();
-    }
+	@Override
+	public void teleopPeriodic() {
+		try {
+			InputController.updateInputs();
+			allPeriodic();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+	}
+
+	public void allPeriodic() {
+		mSubsystemManager.outputToSmartDashboard();
+		mSubsystemManager.writeToLog();
+		mEnabledLooper.outputToSmartDashboard();
+	}
 
 }

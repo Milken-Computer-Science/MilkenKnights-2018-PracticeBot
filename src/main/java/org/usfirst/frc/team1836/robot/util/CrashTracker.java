@@ -11,57 +11,58 @@ import java.util.UUID;
  */
 public class CrashTracker {
 
-    private static final UUID RUN_INSTANCE_UUID = UUID.randomUUID();
+	private static final UUID RUN_INSTANCE_UUID = UUID.randomUUID();
 
-    public static void logRobotStartup() {
-        logMarker("robot startup");
-    }
+	public static void logRobotStartup() {
+		logMarker("robot startup");
+	}
 
-    public static void logRobotConstruction() {
-        logMarker("robot startup");
-    }
+	private static void logMarker(String mark) {
+		logMarker(mark, null);
+	}
 
-    public static void logRobotInit() {
-        logMarker("robot init");
-    }
+	private static void logMarker(String mark, Throwable nullableException) {
 
-    public static void logTeleopInit() {
-        logMarker("teleop init");
-    }
+		try (PrintWriter writer = new PrintWriter(
+				new FileWriter("/home/lvuser/crash_tracking.txt", true))) {
+			writer.print(RUN_INSTANCE_UUID.toString());
+			writer.print(", ");
+			writer.print(mark);
+			writer.print(", ");
+			writer.print(new Date().toString());
 
-    public static void logAutoInit() {
-        logMarker("auto init");
-    }
+			if (nullableException != null) {
+				writer.print(", ");
+				nullableException.printStackTrace(writer);
+			}
 
-    public static void logDisabledInit() {
-        logMarker("disabled init");
-    }
+			writer.println();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static void logThrowableCrash(Throwable throwable) {
-        logMarker("Exception", throwable);
-    }
+	public static void logRobotConstruction() {
+		logMarker("robot startup");
+	}
 
-    private static void logMarker(String mark) {
-        logMarker(mark, null);
-    }
+	public static void logRobotInit() {
+		logMarker("robot init");
+	}
 
-    private static void logMarker(String mark, Throwable nullableException) {
+	public static void logTeleopInit() {
+		logMarker("teleop init");
+	}
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter("/home/lvuser/crash_tracking.txt", true))) {
-            writer.print(RUN_INSTANCE_UUID.toString());
-            writer.print(", ");
-            writer.print(mark);
-            writer.print(", ");
-            writer.print(new Date().toString());
+	public static void logAutoInit() {
+		logMarker("auto init");
+	}
 
-            if (nullableException != null) {
-                writer.print(", ");
-                nullableException.printStackTrace(writer);
-            }
+	public static void logDisabledInit() {
+		logMarker("disabled init");
+	}
 
-            writer.println();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void logThrowableCrash(Throwable throwable) {
+		logMarker("Exception", throwable);
+	}
 }

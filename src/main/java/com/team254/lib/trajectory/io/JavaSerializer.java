@@ -2,7 +2,6 @@ package com.team254.lib.trajectory.io;
 
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,63 +14,62 @@ import java.io.IOException;
  */
 public class JavaSerializer implements IPathSerializer {
 
-    public static boolean writeFile(String path, String data) {
-        try {
-            File file = new File(path);
+	public static boolean writeFile(String path, String data) {
+		try {
+			File file = new File(path);
 
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
 
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(data);
-            bw.close();
-        } catch (IOException e) {
-            return false;
-        }
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(data);
+			bw.close();
+		} catch (IOException e) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Generate a Java source code file from a Path
-     * <p>
-     * For example output, see the unit test.
-     *
-     * @param path The path to serialize.
-     * @return A complete Java file as a string.
-     */
-    @Override
-    public String serialize(Path path) {
-        String contents = "package com.team254.frc2014.paths;\n\n";
-        contents += "import com.team254.lib.trajectory.Trajectory;\n";
-        contents += "import com.team254.path.Path;\n\n";
-        contents += "public class " + path.getName() + " extends Path {\n";
-        path.goLeft();
-        contents += serializeTrajectory("kLeftWheel", path.getLeftWheelTrajectory());
-        contents += serializeTrajectory("kRightWheel", path.getRightWheelTrajectory());
+	/**
+	 * Generate a Java source code file from a Path <p> For example output, see the unit test.
+	 *
+	 * @param path The path to serialize.
+	 *
+	 * @return A complete Java file as a string.
+	 */
+	@Override
+	public String serialize(Path path) {
+		String contents = "package com.team254.frc2014.paths;\n\n";
+		contents += "import com.team254.lib.trajectory.Trajectory;\n";
+		contents += "import com.team254.path.Path;\n\n";
+		contents += "public class " + path.getName() + " extends Path {\n";
+		path.goLeft();
+		contents += serializeTrajectory("kLeftWheel", path.getLeftWheelTrajectory());
+		contents += serializeTrajectory("kRightWheel", path.getRightWheelTrajectory());
 
-        contents += "  public " + path.getName() + "() {\n";
-        contents += "    this.name_ = \"" + path.getName() + "\";\n";
-        contents += "    this.go_left_pair_ = new Trajectory.Pair(kLeftWheel, kRightWheel);\n";
-        contents += "  }\n\n";
+		contents += "  public " + path.getName() + "() {\n";
+		contents += "    this.name_ = \"" + path.getName() + "\";\n";
+		contents += "    this.go_left_pair_ = new Trajectory.Pair(kLeftWheel, kRightWheel);\n";
+		contents += "  }\n\n";
 
-        contents += "}\n";
-        return contents;
-    }
+		contents += "}\n";
+		return contents;
+	}
 
-    private String serializeTrajectory(String name, Trajectory traj) {
-        String contents =
-                "  private final Trajectory " + name + " = new Trajectory( new Trajectory.Segment[] {\n";
-        for (int i = 0; i < traj.getNumSegments(); ++i) {
-            Trajectory.Segment seg = traj.getSegment(i);
-            contents += "    new Trajectory.Segment(" + seg.pos + ", " + seg.vel + ", " + seg.acc + ", "
-                    + seg.jerk + ", " + seg.heading + ", " + seg.dt + ", " + seg.x + ", " + seg.y + "),\n";
-        }
-        contents += "  });\n\n";
-        return contents;
-    }
+	private String serializeTrajectory(String name, Trajectory traj) {
+		String contents =
+				"  private final Trajectory " + name + " = new Trajectory( new Trajectory.Segment[] {\n";
+		for (int i = 0; i < traj.getNumSegments(); ++i) {
+			Trajectory.Segment seg = traj.getSegment(i);
+			contents += "    new Trajectory.Segment(" + seg.pos + ", " + seg.vel + ", " + seg.acc + ", "
+					+ seg.jerk + ", " + seg.heading + ", " + seg.dt + ", " + seg.x + ", " + seg.y + "),\n";
+		}
+		contents += "  });\n\n";
+		return contents;
+	}
 
 }
