@@ -55,3 +55,4 @@ sysProps.xml
 build/
 .gradle/
 \.classpath
+.idea/workspace.xml
