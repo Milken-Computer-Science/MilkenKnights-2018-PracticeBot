@@ -1,58 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bdcd741d-b021-4a7c-a6a9-5dbe20122e98" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Path.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Path.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/PathFollower.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/PathFollower.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/PathGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/PathGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Spline.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Spline.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Trajectory.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/Trajectory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/TrajectoryFollower.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/TrajectoryFollower.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/TrajectoryGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/TrajectoryGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/WaypointSequence.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/WaypointSequence.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/IPathDeserializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/IPathDeserializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/IPathSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/IPathSerializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/JavaSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/JavaSerializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/JavaStringSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/JavaStringSerializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/TextFileDeserializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/TextFileDeserializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/TextFileSerializer.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/trajectory/io/TextFileSerializer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/team254/lib/util/ChezyMath.java" afterPath="$PROJECT_DIR$/src/main/java/com/team254/lib/util/ChezyMath.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/InputController.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/InputController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Inputs.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Inputs.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Robot.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Robot.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/SubsystemManager.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/SubsystemManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Systems.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/Systems.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeBase.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeEndedException.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeEndedException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeExecuter.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/AutoModeExecuter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/actions/Action.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/actions/Action.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/modes/StandStillMode.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/modes/StandStillMode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/paths/CenterAutoPath.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/auto/paths/CenterAutoPath.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/loops/Loop.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/loops/Loop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/loops/Looper.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/loops/Looper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Climber.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Climber.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Drive.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Drive.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Shooter.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Shooter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Subsystem.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/subsystems/Subsystem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/CrashTracker.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/CrashTracker.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/CrashTrackingRunnable.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/CrashTrackingRunnable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/DriveHelper.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/DriveHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/DriveSignal.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/DriveSignal.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/Interpolable.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/Interpolable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingDouble.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingDouble.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingLong.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingLong.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingTreeMap.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InterpolatingTreeMap.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InverseInterpolable.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/InverseInterpolable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkButton.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkButton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkCANTalon.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkCANTalon.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkGyro.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkGyro.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkJoystick.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/MkJoystick.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/PolynomialRegression.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/PolynomialRegression.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/ReflectingCSVWriter.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/ReflectingCSVWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/Util.java" afterPath="$PROJECT_DIR$/src/main/java/org/usfirst/frc/team1836/robot/util/Util.java" />
-    </list>
+    <list default="true" id="bdcd741d-b021-4a7c-a6a9-5dbe20122e98" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -679,12 +628,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1510854864649</updated>
-      <workItem from="1510854868599" duration="378000" />
+      <workItem from="1510854868599" duration="421000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="378000" />
+    <option name="totallyTimeSpent" value="421000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
