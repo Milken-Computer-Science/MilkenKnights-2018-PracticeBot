@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1836.robot;
 
+import org.usfirst.frc.team1836.robot.util.InterpolatingDouble;
+import org.usfirst.frc.team1836.robot.util.PolynomialRegression;
+
 /**
  * Stores all Hard-coded numbers subject to change
  */
@@ -74,6 +77,25 @@ public final class Constants {
 		public static final double kI = 0;
 		public static final double kD = 0;
 		public static final double kF = (1023) / ((4096) * (4000 / 60 / 10));
+
+		public static PolynomialRegression kFlywheelAutoAimPolynomial;
+		public static double[][] kFlywheelDistanceRpmValues = {
+				// At champs 4/27
+				{ 90.0, 2890.0 },
+				{ 95.0, 2940.0 },
+				{ 100.0, 2990.0 },
+				{ 105.0, 3025.0 },
+				{ 110.0, 3075.0 },
+				{ 115.0, 3125.0 },
+				{ 120.0, 3175.0 },
+				{ 125.0, 3225.0 },
+				{ 130.0, 3275.0 },
+		};
+
+		static {
+			kFlywheelAutoAimPolynomial = new PolynomialRegression(kFlywheelDistanceRpmValues, 2);
+		}
+
 	}
 
 

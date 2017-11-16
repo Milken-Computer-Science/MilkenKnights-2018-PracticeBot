@@ -61,6 +61,10 @@ public class Shooter extends Subsystem {
 
 	}
 
+	public void setmSetpointRpm(double range){
+		Constants.Shooter.kFlywheelAutoAimPolynomial.predict(range);
+	}
+
 	@Override
 	public void registerEnabledLoops(Looper enabledLooper) {
 		enabledLooper.register(new Loop() {
