@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1836.robot;
 
-import org.usfirst.frc.team1836.robot.util.InterpolatingDouble;
-import org.usfirst.frc.team1836.robot.util.PolynomialRegression;
+import org.usfirst.frc.team1836.robot.util.interpolation.PolynomialRegression;
 
 /**
  * Stores all Hard-coded numbers subject to change
