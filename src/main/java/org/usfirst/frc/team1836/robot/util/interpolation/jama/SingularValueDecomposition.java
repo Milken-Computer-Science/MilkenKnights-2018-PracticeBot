@@ -1,5 +1,4 @@
-package Jama;
-import Jama.util.*;
+package org.usfirst.frc.team1836.robot.util.interpolation.jama;
 
    /** Singular Value Decomposition.
    <P>

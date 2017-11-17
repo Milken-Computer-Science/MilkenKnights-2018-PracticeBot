@@ -1,4 +1,4 @@
-package Jama;
+package org.usfirst.frc.team1836.robot.util.interpolation.jama;
 
    /** LU Decomposition.
    <P>

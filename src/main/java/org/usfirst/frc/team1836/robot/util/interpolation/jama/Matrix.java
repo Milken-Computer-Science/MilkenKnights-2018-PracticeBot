@@ -1,4 +1,4 @@
-package Jama;
+package org.usfirst.frc.team1836.robot.util.interpolation.jama;
 
 import java.text.NumberFormat;
 import java.text.DecimalFormat;
@@ -8,7 +8,6 @@ import java.text.FieldPosition;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.StreamTokenizer;
-import Jama.util.*;
 
 /**
    Jama = Java Matrix class.
@@ -937,7 +936,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
      * to use a NumberFormat that is set to US Locale.
    @param format A  Formatting object for individual elements.
    @param width     Field width for each column.
-   @see java.text.DecimalFormat#setDecimalFormatSymbols
+   @see DecimalFormat#setDecimalFormatSymbols
    */
 
    public void print (NumberFormat format, int width) {
@@ -956,7 +955,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
    @param output the output stream.
    @param format A formatting object to format the matrix elements 
    @param width  Column width.
-   @see java.text.DecimalFormat#setDecimalFormatSymbols
+   @see DecimalFormat#setDecimalFormatSymbols
    */
 
    public void print (PrintWriter output, NumberFormat format, int width) {

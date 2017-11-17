@@ -1,4 +1,4 @@
-package Jama;
+package org.usfirst.frc.team1836.robot.util.interpolation.jama;
 import Jama.util.*;
 
 /** QR Decomposition.
