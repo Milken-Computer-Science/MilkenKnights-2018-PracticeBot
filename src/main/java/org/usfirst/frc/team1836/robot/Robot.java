@@ -92,7 +92,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledPeriodic() {
-
         allPeriodic();
     }
 
@@ -104,7 +103,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         try {
-            InputController.INSTANCE.updateInputs();
+            InputController.updateInputs();
             allPeriodic();
         } catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);
