@@ -120,4 +120,15 @@ public class Robot extends IterativeRobot {
 		mEnabledLooper.outputToSmartDashboard();
 	}
 
+	public void testInit(){
+		try {
+			Drive.getInstance().checkSystem();
+			mEnabledLooper.start();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
+
+	}
+
 }

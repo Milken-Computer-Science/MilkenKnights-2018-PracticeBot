@@ -3,6 +3,10 @@ package org.usfirst.frc.team1836.robot.util;
 import com.ctre.CANTalon;
 import org.usfirst.frc.team1836.robot.Constants;
 
+/**
+ * CANTalon Wrapper for either Drive Talons or Rotational Talons PID Values for rotational talons
+ * must be configured but not necessarily used
+ */
 public class MkCANTalon extends CANTalon {
 
 	private final double wheelDiameter;
@@ -72,8 +76,8 @@ public class MkCANTalon extends CANTalon {
 	}
 
 	/*
-	 * @return Degrees Per Second or Inches Per Second
-	 */
+		 * @return Degrees Per Second or Inches Per Second
+	*/
 	public double getMkVelocity() {
 		if (rotation) {
 			return getEncVelocity();
