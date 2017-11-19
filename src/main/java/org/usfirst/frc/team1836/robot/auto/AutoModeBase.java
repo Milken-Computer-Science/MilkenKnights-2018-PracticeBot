@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1836.robot.auto;
 
-import com.team254.frc2017.auto.actions.Action;
+import org.usfirst.frc.team1836.robot.auto.actions.Action;
 
 /**
  * An abstract class that is the basis of the robot's autonomous routines. This is implemented in

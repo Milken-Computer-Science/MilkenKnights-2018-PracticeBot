@@ -15,7 +15,6 @@ public class InputController {
 		double climberSpeed = Inputs.climberFwdButton.isHeld() ? Constants.Climb.CLIMBER_SPEED : 0;
 		Drive.getInstance()
 				.setVelocitySetpoint(DriveHelper.cheesyDrive(turn, move, Inputs.cheezyButton.isHeld()));
-		Shooter.getInstance().setSetpointRpm(Inputs.operatorJoystick.getRawAxis(1));
 		Climber.getInstance().setOpenLoop(climberSpeed);
 	}
 
