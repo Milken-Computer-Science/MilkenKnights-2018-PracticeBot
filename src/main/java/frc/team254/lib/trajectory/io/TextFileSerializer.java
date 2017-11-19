@@ -1,8 +1,8 @@
-package com.team254.lib.trajectory.io;
+package frc.team254.lib.trajectory.io;
 
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.trajectory.Trajectory;
-import com.team254.lib.trajectory.Trajectory.Segment;
+import frc.team254.lib.trajectory.Path;
+import frc.team254.lib.trajectory.Trajectory;
+import frc.team254.lib.trajectory.Trajectory.Segment;
 
 /**
  * Serializes a Path to a simple space and CR separated text file.

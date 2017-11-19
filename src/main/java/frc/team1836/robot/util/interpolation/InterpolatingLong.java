@@ -1,4 +1,4 @@
-package robot.util.interpolation;
+package frc.team1836.robot.util.interpolation;
 
 /**
  * A Long that can be interpolated using the InterpolatingTreeMap.

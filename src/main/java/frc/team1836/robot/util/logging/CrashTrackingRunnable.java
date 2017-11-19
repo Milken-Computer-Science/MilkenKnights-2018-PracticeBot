@@ -1,4 +1,4 @@
-package robot.util.logging;
+package frc.team1836.robot.util.logging;
 
 /**
  * Runnable class with reports all uncaught throws to CrashTracker

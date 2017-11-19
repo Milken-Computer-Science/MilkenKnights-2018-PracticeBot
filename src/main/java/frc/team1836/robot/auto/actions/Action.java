@@ -1,4 +1,4 @@
-package robot.auto.actions;
+package frc.team1836.robot.auto.actions;
 
 /**
  * Action Interface, an interface that describes an iterative action. It is run by an autonomous

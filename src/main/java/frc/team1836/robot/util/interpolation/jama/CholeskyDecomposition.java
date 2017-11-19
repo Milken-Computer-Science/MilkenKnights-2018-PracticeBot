@@ -1,4 +1,4 @@
-package robot.util.interpolation.jama;
+package frc.team1836.robot.util.interpolation.jama;
 
 /**
  * Cholesky Decomposition. <P> For a symmetric, positive definite matrix A, the Cholesky

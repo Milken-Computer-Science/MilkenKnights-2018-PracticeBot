@@ -1,4 +1,4 @@
-package robot.auto;
+package frc.team1836.robot.auto;
 
 /**
  * Exception thrown when an auto mode ends unexpectedly

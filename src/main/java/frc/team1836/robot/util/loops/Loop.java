@@ -1,7 +1,7 @@
-package robot.util.loops;
+package frc.team1836.robot.util.loops;
 
 /**
- * Interface for loops, which are routine that run periodically in the robot code (such as periodic
+ * Interface for loops, which are routine that run periodically in the frc.team1836.robot code (such as periodic
  * gyroscope calibration, etc.)
  */
 public interface Loop {

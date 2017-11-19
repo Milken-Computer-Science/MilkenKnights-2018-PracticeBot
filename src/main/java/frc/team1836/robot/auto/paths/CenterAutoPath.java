@@ -1,7 +1,7 @@
-package robot.auto.paths;
+package frc.team1836.robot.auto.paths;
 
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.trajectory.Trajectory;
+import frc.team254.lib.trajectory.Path;
+import frc.team254.lib.trajectory.Trajectory;
 
 public class CenterAutoPath extends Path {
 

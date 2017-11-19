@@ -1,5 +1,5 @@
 // NOTE: This file is available at http://algs4.cs.princeton.edu/14analysis/PolynomialRegression.java.html
-package robot.util.interpolation;
+package frc.team1836.robot.util.interpolation;
 
 /******************************************************************************
  *  Compilation:  javac -cp .:jama.jar PolynomialRegression.java
@@ -12,8 +12,8 @@ package robot.util.interpolation;
  ******************************************************************************/
 
 
-import robot.util.interpolation.jama.Matrix;
-import robot.util.interpolation.jama.QRDecomposition;
+import frc.team1836.robot.util.interpolation.jama.Matrix;
+import frc.team1836.robot.util.interpolation.jama.QRDecomposition;
 
 /**
  * The {@code PolynomialRegression} class performs a polynomial regression on an set of <em>N</em>

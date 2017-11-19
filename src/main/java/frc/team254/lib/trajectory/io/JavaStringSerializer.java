@@ -1,6 +1,6 @@
-package com.team254.lib.trajectory.io;
+package frc.team254.lib.trajectory.io;
 
-import com.team254.lib.trajectory.Path;
+import frc.team254.lib.trajectory.Path;
 import java.util.StringTokenizer;
 
 /**
@@ -13,8 +13,8 @@ public class JavaStringSerializer implements IPathSerializer {
 	@Override
 	public String serialize(Path path) {
 		String contents = "package com.team254.frc2014.paths;\n\n";
-		contents += "import com.team254.lib.trajectory.Trajectory;\n";
-		contents += "import com.team254.lib.trajectory.io.TextFileDeserializer;\n";
+		contents += "import frc.team254.lib.trajectory.Trajectory;\n";
+		contents += "import frc.team254.lib.trajectory.io.TextFileDeserializer;\n";
 		contents += "import com.team254.path.Path;\n\n";
 		contents += "public class " + path.getName() + " extends Path {\n";
 

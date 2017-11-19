@@ -1,4 +1,4 @@
-package robot.util.logging;
+package frc.team1836.robot.util.logging;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

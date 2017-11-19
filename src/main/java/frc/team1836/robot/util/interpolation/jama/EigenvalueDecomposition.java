@@ -1,4 +1,4 @@
-package robot.util.interpolation.jama;
+package frc.team1836.robot.util.interpolation.jama;
 
 /**
  * Eigenvalues and eigenvectors of a real matrix. <P> If A is symmetric, then A = V*D*V' where the

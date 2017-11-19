@@ -1,7 +1,7 @@
-package com.team254.lib.trajectory.io;
+package frc.team254.lib.trajectory.io;
 
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.trajectory.Trajectory;
+import frc.team254.lib.trajectory.Path;
+import frc.team254.lib.trajectory.Trajectory;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -44,7 +44,7 @@ public class JavaSerializer implements IPathSerializer {
 	@Override
 	public String serialize(Path path) {
 		String contents = "package com.team254.frc2014.paths;\n\n";
-		contents += "import com.team254.lib.trajectory.Trajectory;\n";
+		contents += "import frc.team254.lib.trajectory.Trajectory;\n";
 		contents += "import com.team254.path.Path;\n\n";
 		contents += "public class " + path.getName() + " extends Path {\n";
 		path.goLeft();

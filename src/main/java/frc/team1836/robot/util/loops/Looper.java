@@ -1,16 +1,16 @@
-package robot.util.loops;
+package frc.team1836.robot.util.loops;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.ArrayList;
 import java.util.List;
-import robot.Constants;
-import robot.util.CrashTrackingRunnable;
+import frc.team1836.robot.Constants;
+import frc.team1836.robot.util.CrashTrackingRunnable;
 
 /**
- * This code runs all of the robot's loops. Loop objects are stored in a List object. They are
- * started when the robot powers up and stopped after the match.
+ * This code runs all of the frc.team1836.robot's loops. Loop objects are stored in a List object. They are
+ * started when the frc.team1836.robot powers up and stopped after the match.
  */
 public class Looper {
 

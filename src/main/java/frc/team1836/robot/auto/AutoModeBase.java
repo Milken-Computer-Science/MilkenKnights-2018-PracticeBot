@@ -1,9 +1,9 @@
-package robot.auto;
+package frc.team1836.robot.auto;
 
-import robot.auto.actions.Action;
+import frc.team1836.robot.auto.actions.Action;
 
 /**
- * An abstract class that is the basis of the robot's autonomous routines. This is implemented in
+ * An abstract class that is the basis of the frc.team1836.robot's autonomous routines. This is implemented in
  * auto modes (which are routines that do actions).
  */
 public abstract class AutoModeBase {

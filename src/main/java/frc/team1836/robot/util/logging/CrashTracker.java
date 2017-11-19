@@ -1,4 +1,4 @@
-package robot.util.logging;
+package frc.team1836.robot.util.logging;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class CrashTracker {
 	private static final UUID RUN_INSTANCE_UUID = UUID.randomUUID();
 
 	public static void logRobotStartup() {
-		logMarker("robot startup");
+		logMarker("frc.team1836.robot startup");
 	}
 
 	private static void logMarker(String mark) {
@@ -43,11 +43,11 @@ public class CrashTracker {
 	}
 
 	public static void logRobotConstruction() {
-		logMarker("robot startup");
+		logMarker("frc.team1836.robot startup");
 	}
 
 	public static void logRobotInit() {
-		logMarker("robot init");
+		logMarker("frc.team1836.robot init");
 	}
 
 	public static void logTeleopInit() {
