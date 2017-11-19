@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1836.robot.subsystems;
 
 
-import org.usfirst.frc.team1836.robot.loops.Looper;
+import org.usfirst.frc.team1836.robot.util.loops.Looper;
 
 /**
  * The Subsystem abstract class, which serves as a basic framework for all robot subsystems. Each

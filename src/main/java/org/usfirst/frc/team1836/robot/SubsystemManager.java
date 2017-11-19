@@ -1,10 +1,9 @@
 package org.usfirst.frc.team1836.robot;
 
 
-import org.usfirst.frc.team1836.robot.loops.Looper;
-import org.usfirst.frc.team1836.robot.subsystems.Subsystem;
-
 import java.util.List;
+import org.usfirst.frc.team1836.robot.subsystems.Subsystem;
+import org.usfirst.frc.team1836.robot.util.loops.Looper;
 
 /**
  * Used to reset, start, stop, and update all subsystems at once

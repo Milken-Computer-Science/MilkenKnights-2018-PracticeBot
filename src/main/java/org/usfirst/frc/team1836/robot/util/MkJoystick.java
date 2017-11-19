@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1836.robot.util;
 
 import edu.wpi.first.wpilibj.Joystick;
-
 import java.util.HashMap;
 
 public class MkJoystick extends Joystick {

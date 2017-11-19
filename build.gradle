@@ -27,10 +27,9 @@ deploy {
 // and NavX.
 dependencies {
     compile wpilib()
-    compile cscore()
-    compile zipTree('libs/phoenix.zip').matching { it.include('java/lib/CTRE_Phoenix.jar') }
-    nativeLib zipTree('libs/phoenix.zip').matching { it.include('java/lib/libCTRE_PhoenixCCI.so') }
+    compile ctre()
     compile navx()
+    compile cscore()
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')

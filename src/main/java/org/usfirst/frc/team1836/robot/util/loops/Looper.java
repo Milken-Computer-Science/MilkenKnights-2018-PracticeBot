@@ -1,13 +1,12 @@
-package org.usfirst.frc.team1836.robot.loops;
+package org.usfirst.frc.team1836.robot.util.loops;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team1836.robot.Constants;
-import org.usfirst.frc.team1836.robot.util.CrashTrackingRunnable;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.usfirst.frc.team1836.robot.Constants;
+import org.usfirst.frc.team1836.robot.util.CrashTrackingRunnable;
 
 /**
  * This code runs all of the robot's loops. Loop objects are stored in a List object. They are

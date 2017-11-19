@@ -1,9 +1,9 @@
 package org.usfirst.frc.team1836.robot.subsystems;
 
 import org.usfirst.frc.team1836.robot.Constants;
-import org.usfirst.frc.team1836.robot.loops.Loop;
-import org.usfirst.frc.team1836.robot.loops.Looper;
 import org.usfirst.frc.team1836.robot.util.MkCANTalon;
+import org.usfirst.frc.team1836.robot.util.loops.Loop;
+import org.usfirst.frc.team1836.robot.util.loops.Looper;
 
 public class Climber extends Subsystem {
 

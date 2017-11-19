@@ -12,7 +12,7 @@ public class Inputs {
 	public static final MkButton straightButton =
 			driverJoystick.getButton(Constants.Input.STRAIGHT_BUTTON);
 	public static final MkButton cheezyButton =
-			driverJoystick.getButton(Constants.Input.CHEESE_BUTTON);
+			driverJoystick.getButton(Constants.Input.SLOW_BUTTON);
 	public static final MkButton gearPickupButton =
 			operatorJoystick.getButton(Constants.Input.GEAR_PICKUP_BUTTON);
 	public static final MkButton gearStowButton =

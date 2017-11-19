@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1836.robot.subsystems;
 
+import static org.usfirst.frc.team1836.robot.Constants.DRIVE;
+import static org.usfirst.frc.team1836.robot.Constants.Hardware;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -10,14 +13,14 @@ import com.team254.lib.trajectory.TrajectoryFollower;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team1836.robot.loops.Loop;
-import org.usfirst.frc.team1836.robot.loops.Looper;
-import org.usfirst.frc.team1836.robot.util.*;
-
 import java.util.Arrays;
-
-import static org.usfirst.frc.team1836.robot.Constants.DRIVE;
-import static org.usfirst.frc.team1836.robot.Constants.Hardware;
+import org.usfirst.frc.team1836.robot.util.DriveSignal;
+import org.usfirst.frc.team1836.robot.util.MkCANTalon;
+import org.usfirst.frc.team1836.robot.util.MkGyro;
+import org.usfirst.frc.team1836.robot.util.ReflectingCSVWriter;
+import org.usfirst.frc.team1836.robot.util.Util;
+import org.usfirst.frc.team1836.robot.util.loops.Loop;
+import org.usfirst.frc.team1836.robot.util.loops.Looper;
 
 public class Drive extends Subsystem {
 

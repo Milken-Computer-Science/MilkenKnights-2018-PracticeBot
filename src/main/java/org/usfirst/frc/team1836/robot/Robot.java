@@ -6,32 +6,30 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import java.util.Arrays;
 import org.usfirst.frc.team1836.robot.auto.AutoModeBase;
 import org.usfirst.frc.team1836.robot.auto.AutoModeExecuter;
 import org.usfirst.frc.team1836.robot.auto.modes.StandStillMode;
-import org.usfirst.frc.team1836.robot.loops.Looper;
-import org.usfirst.frc.team1836.robot.subsystems.Climber;
 import org.usfirst.frc.team1836.robot.subsystems.Drive;
-import org.usfirst.frc.team1836.robot.subsystems.Shooter;
 import org.usfirst.frc.team1836.robot.util.CrashTracker;
-
-import java.util.Arrays;
+import org.usfirst.frc.team1836.robot.util.loops.Looper;
 
 public class Robot extends IterativeRobot {
 
 	private final SubsystemManager mSubsystemManager = new SubsystemManager(
-			Arrays.asList(Drive.getInstance(), Climber.getInstance(), Shooter.getInstance()));
+			Arrays.asList(Drive.getInstance()));
 	private Looper mEnabledLooper = new Looper();
 	private SendableChooser<AutoModeBase> chooser = new SendableChooser<>();
 	private AutoModeExecuter mAutoModeExecuter = null;
 	private UsbCamera mCamera;
+
 	@Override
 	public void robotInit() {
 		try {
 			CrashTracker.logRobotInit();
 			mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 			mCamera = CameraServer.getInstance().startAutomaticCapture();
-			mCamera.setResolution(320,240);
+			mCamera.setResolution(320, 240);
 			mCamera.setFPS(30);
 			mCamera.setExposureAuto();
 			mCamera.setWhiteBalanceAuto();

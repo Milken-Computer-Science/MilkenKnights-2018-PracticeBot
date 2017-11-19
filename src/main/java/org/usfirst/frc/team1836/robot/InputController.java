@@ -2,7 +2,6 @@ package org.usfirst.frc.team1836.robot;
 
 import org.usfirst.frc.team1836.robot.subsystems.Climber;
 import org.usfirst.frc.team1836.robot.subsystems.Drive;
-import org.usfirst.frc.team1836.robot.subsystems.Shooter;
 import org.usfirst.frc.team1836.robot.util.DriveHelper;
 
 public class InputController {

@@ -1,7 +1,6 @@
 package com.team254.lib.trajectory.io;
 
 import com.team254.lib.trajectory.Path;
-
 import java.util.StringTokenizer;
 
 /**

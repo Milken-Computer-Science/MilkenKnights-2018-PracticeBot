@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1836.robot.loops;
+package org.usfirst.frc.team1836.robot.util.loops;
 
 /**
  * Interface for loops, which are routine that run periodically in the robot code (such as periodic
