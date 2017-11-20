@@ -7,13 +7,11 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team1836.robot.Constants;
 import frc.team1836.robot.util.*;
 import frc.team1836.robot.util.loops.Loop;
 import frc.team1836.robot.util.loops.Looper;
 import frc.team254.lib.trajectory.Path;
 import frc.team254.lib.trajectory.PathFollower;
-import frc.team254.lib.trajectory.TrajectoryFollower;
 
 import java.util.Arrays;
 
@@ -27,8 +25,6 @@ public class Drive extends Subsystem {
     private DriveDebugOutput mDebug = new DriveDebugOutput();
     private ReflectingCSVWriter<DriveDebugOutput> mCSVWriter;
     private MkGyro navX;
-    private TrajectoryFollower trajFollower;
-    private double trajectoryDist;
     private DriveControlState mDriveControlState;
     private PathFollower mPathFollower;
 
@@ -39,12 +35,12 @@ public class Drive extends Subsystem {
         rightbacktalon = new MkCANTalon(Hardware.RIGHT_BACK_TALON_ID, DRIVE.WHEEL_DIAMETER);
         rightfwdtalon = new MkCANTalon(Hardware.RIGHT_FWD_TALON_ID, DRIVE.WHEEL_DIAMETER);
 
-       leftfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+        leftfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
         leftfwdtalon.reverseSensor(Hardware.LEFT_FWD_TALON_SENSOR_REVERSE);
         leftfwdtalon.configNominalOutputVoltage(+0.0f, -0.0f);
         leftfwdtalon.configPeakOutputVoltage(+12.0f, -12.0f);
         leftfwdtalon.setProfile(0);
-       leftfwdtalon.setF(DRIVE.DRIVE_F);
+        leftfwdtalon.setF(DRIVE.DRIVE_F);
         leftfwdtalon.setP(DRIVE.DRIVE_P);
         leftfwdtalon.setI(DRIVE.DRIVE_I);
         leftfwdtalon.setD(DRIVE.DRIVE_D);
@@ -75,10 +71,10 @@ public class Drive extends Subsystem {
         rightfwdtalon.setPrint(false);
         rightbacktalon.setPrint(false);
 
-        mCSVWriter = new ReflectingCSVWriter<DriveDebugOutput>("/home/lvuser/DRIVE-LOGS.csv",
+        mCSVWriter = new ReflectingCSVWriter<>("/home/lvuser/DRIVE-LOGS.csv",
                 DriveDebugOutput.class);
 
-       leftfwdtalon.changeControlMode(TalonControlMode.Speed);
+        leftfwdtalon.changeControlMode(TalonControlMode.Speed);
         rightfwdtalon.changeControlMode(TalonControlMode.Speed);
         leftbacktalon.changeControlMode(TalonControlMode.Follower);
         rightbacktalon.changeControlMode(TalonControlMode.Follower);
@@ -95,9 +91,7 @@ public class Drive extends Subsystem {
     }
 
     protected static boolean usesTalonVelocityControl(DriveControlState state) {
-        if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) {
-            return true;
-        }
+        if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) return true;
         return false;
     }
 
@@ -202,7 +196,7 @@ public class Drive extends Subsystem {
     private synchronized void updateVelocitySetpoint(double left_inches_per_sec,
                                                      double right_inches_per_sec) {
         if (usesTalonVelocityControl(mDriveControlState)) {
-           leftfwdtalon.set(left_inches_per_sec);
+            leftfwdtalon.set(left_inches_per_sec);
             rightfwdtalon.set(right_inches_per_sec);
         }
     }
