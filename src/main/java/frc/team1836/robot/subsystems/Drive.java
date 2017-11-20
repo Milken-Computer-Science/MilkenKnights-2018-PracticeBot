@@ -83,7 +83,6 @@ public class Drive extends Subsystem {
         mDriveControlState = DriveControlState.OPEN_LOOP;
         mDebug.leftPosition = 0;
         mDebug.velocity = 0;
-        mDebug.controlMode = TalonControlMode.PercentVbus.toString();
     }
 
     public static Drive getInstance() {
@@ -142,6 +141,11 @@ public class Drive extends Subsystem {
                     mDebug.leftOutput = leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage();
                     mDebug.rightOutput = rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage();
                     mDebug.rightPosition = rightfwdtalon.getMkPosition();
+                    mDebug.leftPosition = leftfwdtalon.getMkPosition();
+                    mDebug.leftVelocity = leftfwdtalon.getMkVelocity();
+                    mDebug.rightVelocity = rightfwdtalon.getMkVelocity();
+                    mDebug.leftSetpoint = leftfwdtalon.getMkSetpoint();
+                    mDebug.rightSetpoint = rightfwdtalon.getMkSetpoint();
                     mDebug.timestamp = timestamp;
                     mDebug.controlMode = mDriveControlState.toString();
                     mCSVWriter.add(mDebug);
@@ -149,6 +153,7 @@ public class Drive extends Subsystem {
                         case OPEN_LOOP:
                             return;
                         case VELOCITY_SETPOINT:
+                            updatePathFollower(timestamp);
                             return;
                         case PATH_FOLLOWING:
                             return;
@@ -227,7 +232,7 @@ public class Drive extends Subsystem {
     }
 
     public void setPathFollower(Path mPath) {
-        mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_TOL, DRIVE.DRIVE_FOLLOWER_ANG_TOL);
+        mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL, DRIVE.DRIVE_FOLLOWER_ANG_TOL);
     }
 
     private void updatePathFollower(double timestamp) {
@@ -236,7 +241,6 @@ public class Drive extends Subsystem {
         double rightVel = mPathFollower
                 .getRightVelocity(rightfwdtalon.getMkPosition(), rightfwdtalon.getMkVelocity(),
                         -navX.getYaw());
-        //Negative to allow for turning to correct
         updateVelocitySetpoint(leftVel, rightVel);
     }
 
@@ -369,10 +373,12 @@ public class Drive extends Subsystem {
         public double leftOutput;
         public double rightOutput;
         public String controlMode;
-        public double setpoint;
+        public double leftSetpoint;
+        public double rightSetpoint;
         public double leftPosition;
         public double rightPosition;
-        public double velocity;
+        public double leftVelocity;
+        public double rightVelocity;
     }
 
 

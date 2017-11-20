@@ -45,15 +45,10 @@ public final class Constants {
         public static final double DRIVE_FOLLOWER_P = 0;
         public static final double DRIVE_FOLLOWER_D = 0;
         public static final double DRIVE_FOLLOWER_ANG = 0;
-        public static final double DRIVE_FOLLOWER_TOL = 1.5;
+        public static final double DRIVE_FOLLOWER_DIST_TOL = 1.5;
         public static final double DRIVE_FOLLOWER_ANG_TOL = 1.5;
 
         public static final int CODES_PER_REV = 4096;
-    }
-
-    public static class Climb {
-
-        static final double CLIMBER_SPEED = 0.95;
     }
 
     public static class Log {
