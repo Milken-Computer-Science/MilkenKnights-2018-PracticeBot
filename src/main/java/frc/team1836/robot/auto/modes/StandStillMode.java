@@ -9,8 +9,8 @@ import frc.team1836.robot.auto.AutoModeEndedException;
  */
 public class StandStillMode extends AutoModeBase {
 
-	@Override
-	protected void routine() throws AutoModeEndedException {
-		System.out.println("Starting Stand Still Mode... Done!");
-	}
+    @Override
+    protected void routine() throws AutoModeEndedException {
+        System.out.println("Starting Stand Still Mode... Done!");
+    }
 }
