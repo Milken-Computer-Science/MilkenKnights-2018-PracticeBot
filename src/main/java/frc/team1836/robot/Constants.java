@@ -53,7 +53,8 @@ public final class Constants {
 
     public static class Log {
 
-        public static final String PATH_LOG_DIR = "/home/lvuser/PATH_LOG.java";
+        public static final String LEFT_PATH_LOG_DIR = "/home/lvuser/LEFT_PATH_LOG.java";
+        public static final String RIGHT_PATH_LOG_DIR = "/home/lvuser/RIGHT_PATH_LOG.java";
     }
 
 }

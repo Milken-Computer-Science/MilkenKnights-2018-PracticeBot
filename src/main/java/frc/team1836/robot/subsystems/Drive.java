@@ -82,7 +82,8 @@ public class Drive extends Subsystem {
         rightbacktalon.set(Hardware.RIGHT_FWD_TALON_ID);
         mDriveControlState = DriveControlState.OPEN_LOOP;
         mDebug.leftPosition = 0;
-        mDebug.velocity = 0;
+        mDebug.rightVelocity = 0;
+        mDebug.leftVelocity = 0;
     }
 
     public static Drive getInstance() {
