@@ -57,3 +57,5 @@ build/
 \.classpath
 .idea/
 *.iml
+*.ipr
+*.iws
