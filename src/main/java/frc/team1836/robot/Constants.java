@@ -33,6 +33,7 @@ public final class Constants {
     public static class DRIVE {
 
         public static final double WHEEL_DIAMETER = 4;
+        public static final double CIRCUMFERENCE = 12.5663706144;
         public static final double MAX_VEL = (760 / 60) * (12.56637); // Inches per second
         public static final double DRIVE_A = MAX_VEL * 0.75;
         public static final double DRIVE_V = MAX_VEL * 0.75;

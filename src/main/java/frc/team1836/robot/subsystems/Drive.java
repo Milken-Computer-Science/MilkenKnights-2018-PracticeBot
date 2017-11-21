@@ -90,9 +90,8 @@ public class Drive extends Subsystem {
         return mInstance;
     }
 
-    protected static boolean usesTalonVelocityControl(DriveControlState state) {
-        if (state == DriveControlState.VELOCITY_SETPOINT || state == DriveControlState.PATH_FOLLOWING) return true;
-        return false;
+    private static boolean usesTalonVelocityControl(DriveControlState state) {
+        return ((state == DriveControlState.VELOCITY_SETPOINT) || (state == DriveControlState.PATH_FOLLOWING));
     }
 
     @Override
@@ -102,10 +101,10 @@ public class Drive extends Subsystem {
 
     @Override
     public void outputToSmartDashboard() {
-        SmartDashboard.putNumber("Left Encoder Position", leftfwdtalon.getMkPosition());
-        SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getMkPosition());
+        SmartDashboard.putNumber("Left Encoder Position", MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()));
+        SmartDashboard.putNumber("Right Encoder Position", MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()));
         SmartDashboard.putNumber("Right Motor Output", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
-        SmartDashboard.putNumber("Left Encoder Velocity", leftfwdtalon.getMkVelocity());
+        SmartDashboard.putNumber("Left Encoder Velocity", MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()));
         SmartDashboard.putNumber("Right Encoder Error", (rightfwdtalon.getError() / 4096) * Math.PI * DRIVE.WHEEL_DIAMETER);
         SmartDashboard.putNumber("Right Encoder Velocity", (((rightfwdtalon.getEncVelocity() * 10) / 4096) * Math.PI * DRIVE.WHEEL_DIAMETER));
         SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
@@ -141,12 +140,12 @@ public class Drive extends Subsystem {
                 synchronized (Drive.this) {
                     mDebug.leftOutput = leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage();
                     mDebug.rightOutput = rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage();
-                    mDebug.rightPosition = rightfwdtalon.getMkPosition();
-                    mDebug.leftPosition = leftfwdtalon.getMkPosition();
-                    mDebug.leftVelocity = leftfwdtalon.getMkVelocity();
-                    mDebug.rightVelocity = rightfwdtalon.getMkVelocity();
-                    mDebug.leftSetpoint = leftfwdtalon.getMkSetpoint();
-                    mDebug.rightSetpoint = rightfwdtalon.getMkSetpoint();
+                    mDebug.rightPosition = MkMath.nativeUnitsToInches(rightfwdtalon.getPosition());
+                    mDebug.leftPosition = MkMath.nativeUnitsToInches(leftfwdtalon.getPosition());
+                    mDebug.leftVelocity = MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity());
+                    mDebug.rightVelocity = MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity());
+                    mDebug.leftSetpoint = MkMath.nativeUnitsToInches(rightfwdtalon.getSetpoint());
+                    mDebug.rightSetpoint = MkMath.nativeUnitsToInches(leftfwdtalon.getSetpoint());
                     mDebug.timestamp = timestamp;
                     mDebug.controlMode = mDriveControlState.toString();
                     mCSVWriter.add(mDebug);
@@ -175,7 +174,7 @@ public class Drive extends Subsystem {
         enabledLooper.register(mLoop);
     }
 
-    public synchronized void setOpenLoop(DriveSignal signal) {
+    private synchronized void setOpenLoop(DriveSignal signal) {
         if (mDriveControlState != DriveControlState.OPEN_LOOP) {
             leftfwdtalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
             rightfwdtalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
@@ -185,7 +184,7 @@ public class Drive extends Subsystem {
         rightfwdtalon.set(signal.getRight());
     }
 
-    public synchronized void setVelocitySetpoint(double left_inches_per_sec,
+    private synchronized void setVelocitySetpoint(double left_inches_per_sec,
                                                  double right_inches_per_sec) {
         configureTalonsForSpeedControl();
         mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
@@ -202,12 +201,12 @@ public class Drive extends Subsystem {
     private synchronized void updateVelocitySetpoint(double left_inches_per_sec,
                                                      double right_inches_per_sec) {
         if (usesTalonVelocityControl(mDriveControlState)) {
-            leftfwdtalon.set(left_inches_per_sec);
-            rightfwdtalon.set(right_inches_per_sec);
+            leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
+            rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
         }
     }
 
-    public synchronized void resetEncoders() {
+    private synchronized void resetEncoders() {
         leftfwdtalon.setEncPosition(0);
         leftfwdtalon.setPosition(0);
         rightfwdtalon.setPosition(0);
@@ -238,9 +237,9 @@ public class Drive extends Subsystem {
 
     private void updatePathFollower(double timestamp) {
         double leftVel = mPathFollower
-                .getLeftVelocity(leftfwdtalon.getMkPosition(), leftfwdtalon.getMkVelocity(), navX.getYaw());
+                .getLeftVelocity(MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()), MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()), navX.getYaw());
         double rightVel = mPathFollower
-                .getRightVelocity(rightfwdtalon.getMkPosition(), rightfwdtalon.getMkVelocity(),
+                .getRightVelocity(MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()), MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity()),
                         -navX.getYaw());
         updateVelocitySetpoint(leftVel, rightVel);
     }
@@ -362,7 +361,7 @@ public class Drive extends Subsystem {
         return !failure;
     }
 
-    public enum DriveControlState {
+    private enum DriveControlState {
         OPEN_LOOP, // Open loop PercentVBus Control
         VELOCITY_SETPOINT, // Velocity Control in Manual or other form
         PATH_FOLLOWING, // Path following in Auto - Uses Talon Velocity Control

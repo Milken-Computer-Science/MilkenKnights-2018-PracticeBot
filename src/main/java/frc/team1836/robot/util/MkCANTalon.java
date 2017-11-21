@@ -51,75 +51,11 @@ public class MkCANTalon extends CANTalon {
         setProfile(0);
     }
 
-    public double getMkError() {
-        if (rotation) {
-            return getMkSetpoint() - getMkPosition();
-        } else {
-            return (getError() / codesPerRev) * Math.PI * wheelDiameter;
-        }
-    }
-
-    public double getMkSetpoint() {
-        if (rotation) {
-            return getSetpoint() * 360;
-        } else {
-            return getSetpoint() * Math.PI * wheelDiameter;
-        }
-    }
-
-    public double getMkPosition() {
-        if (rotation) {
-            return getPosition() * 360;
-        } else {
-            return getPosition() * Math.PI * wheelDiameter;
-        }
-    }
-
-    /*
-         * @return Degrees Per Second or Inches Per Second
-    */
-    public double getMkVelocity() {
-        if (rotation) {
-            return getEncVelocity();
-            // RPM * 1 min / 60 sec * 360 deg / 1 rotation
-        } else {
-            return ((getEncVelocity() * (Math.PI * wheelDiameter)) / 60);
-            // RPM * (PI * wheelDiameter) * 1 min / 60 seconds
-        }
-    }
-
-    public void setEncPosition(double pos) {
-        if (rotation) {
-            super.set(pos / 360);
-        } else {
-            super.set(pos / (Math.PI * wheelDiameter));
-        }
-    }
-
     @Override
     public void set(double val) {
         super.set(modeValue(val));
         if (setPrint) {
             System.out.println("Mode: " + getControlMode().toString() + " Value: " + modeValue(val));
-        }
-    }
-
-    public double modeValue(double val) {
-        if (getControlMode().equals(TalonControlMode.Speed)) {
-            if (rotation) {
-                return (val / 360) * 60;
-            } else {
-                System.out.println(((val / (Math.PI * wheelDiameter)) * 4096) / 10);
-                return ((val / (Math.PI * wheelDiameter)) * 4096) / 10;
-            }
-        } else if (getControlMode().equals(TalonControlMode.MotionMagic)) {
-            if (rotation) {
-                return val / 360;
-            } else {
-                return (val / (Math.PI * wheelDiameter));
-            }
-        } else {
-            return val;
         }
     }
 
