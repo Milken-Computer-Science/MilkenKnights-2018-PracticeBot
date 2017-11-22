@@ -11,8 +11,9 @@ public class TrajectoryFollower {
 
     double Dt;
     private double kp_;
-    private double kd_;
+    private double kv_;
     private double kAng_;
+    private double ka_;
     private double last_error_;
     private double last_Ang_error;
     private double current_heading = 0;
@@ -32,9 +33,10 @@ public class TrajectoryFollower {
         Dt = System.nanoTime();
     }
 
-    public void configure(double kp, double kd, double kAng) {
+    public void configure(double kp, double kv, double ka, double kAng) {
         kp_ = kp;
-        kd_ = kd;
+        kv_ = kv;
+        ka_ = ka;
         kAng_ = kAng;
     }
 
@@ -53,8 +55,8 @@ public class TrajectoryFollower {
             Trajectory.Segment segment = profile_.getSegment(current_segment);
             double error = segment.pos - distance_so_far;
             double angError = segment.heading - gyroHeading;
-            double output = (kp_ * error) + (kd_ * (((error - last_error_) / segment.dt) - segment.vel))
-                    + (angError * kAng_) + segment.vel;
+            double desired = (angError * kAng_) + segment.vel;
+            double output = desired + kp_ * error + kv_ * (vel - segment.vel) + ka_ * segment.acc;
             last_Ang_error = angError;
             last_error_ = error;
             current_heading = segment.heading;

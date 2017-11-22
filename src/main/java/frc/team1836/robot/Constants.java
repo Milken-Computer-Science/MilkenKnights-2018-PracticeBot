@@ -44,7 +44,8 @@ public final class Constants {
         public static final double DRIVE_F = 0.197175; // 1023 / ((820) * (1/60) * (1/10) * (4096))
 
         public static final double DRIVE_FOLLOWER_P = 0;
-        public static final double DRIVE_FOLLOWER_D = 0;
+        public static final double DRIVE_FOLLOWER_V = 0;
+        public static final double DRIVE_FOLLOWER_A = 0;
         public static final double DRIVE_FOLLOWER_ANG = 0;
         public static final double DRIVE_FOLLOWER_DIST_TOL = 1.5;
         public static final double DRIVE_FOLLOWER_ANG_TOL = 1.5;
