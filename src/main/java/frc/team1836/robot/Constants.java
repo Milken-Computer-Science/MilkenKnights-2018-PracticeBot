@@ -9,8 +9,8 @@ public final class Constants {
 
         public static final int LEFT_FWD_TALON_ID = 1;
         public static final int LEFT_BACK_TALON_ID = 2;
-        public static final int RIGHT_FWD_TALON_ID = 7;
-        public static final int RIGHT_BACK_TALON_ID = 8;
+        public static final int RIGHT_FWD_TALON_ID = 8;
+        public static final int RIGHT_BACK_TALON_ID = 7;
         public static final boolean LEFT_FWD_TALON_SENSOR_REVERSE = true;
         public static final boolean RIGHT_FWD_TALON_SENSOR_REVERSE = false;
         public static final boolean LEFT_FWD_TALON_REVERSE = false;

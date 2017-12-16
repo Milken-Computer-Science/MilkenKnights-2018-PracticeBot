@@ -103,14 +103,14 @@ public class Drive extends Subsystem {
     public void outputToSmartDashboard() {
         SmartDashboard.putNumber("Left Encoder Position", MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()));
         SmartDashboard.putNumber("Right Encoder Position", MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()));
-        SmartDashboard.putNumber("Right Motor Output", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
+        /*SmartDashboard.putNumber("Right Motor Output", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
         SmartDashboard.putNumber("Left Encoder Velocity", MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()));
         SmartDashboard.putNumber("Right Encoder Error", (rightfwdtalon.getError() / 4096) * Math.PI * DRIVE.WHEEL_DIAMETER);
         SmartDashboard.putNumber("Right Encoder Velocity", (((rightfwdtalon.getEncVelocity() * 10) / 4096) * Math.PI * DRIVE.WHEEL_DIAMETER));
         SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
         SmartDashboard.putNumber("Right Error Raw", rightfwdtalon.getError());
         SmartDashboard.putNumber("Setpoint", rightfwdtalon.getSetpoint());
-        SmartDashboard.putNumber("RAW VEL", rightfwdtalon.getEncVelocity());
+        SmartDashboard.putNumber("RAW VEL", rightfwdtalon.getEncVelocity()); */
     }
 
     public void stop() {
@@ -174,7 +174,7 @@ public class Drive extends Subsystem {
         enabledLooper.register(mLoop);
     }
 
-    private synchronized void setOpenLoop(DriveSignal signal) {
+    public synchronized void setOpenLoop(DriveSignal signal) {
         if (mDriveControlState != DriveControlState.OPEN_LOOP) {
             leftfwdtalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);
             rightfwdtalon.changeControlMode(CANTalon.TalonControlMode.PercentVbus);

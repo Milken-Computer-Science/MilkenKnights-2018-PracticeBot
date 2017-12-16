@@ -53,9 +53,9 @@ public class MkCANTalon extends CANTalon {
 
     @Override
     public void set(double val) {
-        super.set(modeValue(val));
+        super.set(val);
         if (setPrint) {
-            System.out.println("Mode: " + getControlMode().toString() + " Value: " + modeValue(val));
+            System.out.println("Mode: " + getControlMode().toString() + " Value: " + val);
         }
     }
 
