@@ -12,7 +12,7 @@ public class InputController {
 		double move = -Inputs.driverJoystick.getRawAxis(1) * reverseState;
 		double turn = Inputs.straightButton.isHeld() ? 0 : -Inputs.driverJoystick.getRawAxis(2);
 		System.out.println("Turn: " + turn + " Move: " + move);
-		Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(0.5, 0, Inputs.cheezyButton.isHeld()));
+		Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(0.75, 0, Inputs.cheezyButton.isHeld()));
 	}
 
 

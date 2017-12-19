@@ -36,10 +36,10 @@ public final class Constants {
         public static final double DRIVE_A = MAX_VEL * 0.75;
         public static final double DRIVE_V = MAX_VEL * 0.75;
         public static final int DRIVE_I_ZONE = 0;
-        public static final double DRIVE_P = 300 *  ((0.1 * 1023) / ((140 / CIRCUMFERENCE) * 4096) / 10);
+        public static final double DRIVE_P = 0 *  ((0.1 * 1023) / ((140 / CIRCUMFERENCE) * 4096) / 10);
         public static final double DRIVE_I = 0;
         public static final double DRIVE_D = 0;
-        public static final double DRIVE_F = 1023 / ((715 / 60 / 10) * 4096);
+        public static final double DRIVE_F = 10 * (1023 / ((715 / 60 / 10) * 4096));
 
         public static final double DRIVE_FOLLOWER_P = 0;
         public static final double DRIVE_FOLLOWER_V = 0;
