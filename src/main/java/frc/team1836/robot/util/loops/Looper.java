@@ -83,6 +83,6 @@ public class Looper {
     }
 
     public void outputToSmartDashboard() {
-        SmartDashboard.putNumber("looper_dt", dt_);
+        SmartDashboard.putNumber("looper_dt", Math.round((dt_ * 1000) * 100.0)/100.0);
     }
 }

@@ -29,7 +29,6 @@ public class Robot extends IterativeRobot {
         try {
             CrashTracker.logRobotInit();
             mSubsystemManager.registerEnabledLoops(mEnabledLooper);
-            CameraServer.getInstance().startAutomaticCapture().setResolution(320, 240);
             controller = new InputController();
             chooser.addObject("No Auto", new StandStillMode());
             SmartDashboard.putData("Auto mode", chooser);

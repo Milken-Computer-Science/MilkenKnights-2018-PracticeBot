@@ -1,4 +1,4 @@
-package frc.team1836.robot.util;
+package frc.team1836.robot.util.state;
 
 public class VisionInfo {
 
