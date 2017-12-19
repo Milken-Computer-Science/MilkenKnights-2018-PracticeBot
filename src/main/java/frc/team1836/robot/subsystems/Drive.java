@@ -108,8 +108,8 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder Position", MkMath.nativeUnitsToInches(rightfwdtalon.getEncPosition()));
 		SmartDashboard.putNumber("Left Encoder Velocity", getLeftVelocity());
 		SmartDashboard.putNumber("Right Encoder Velocity", getRightVelocity());
-		SmartDashboard.putNumber("Left Encoder Talon Error", (-leftfwdtalon.getClosedLoopError() / 4096) * 4 * Math.PI);
-		SmartDashboard.putNumber("Right Encoder Talon Error", (rightfwdtalon.getClosedLoopError() / 4096) * 4 * Math.PI);
+		SmartDashboard.putNumber("Left Encoder Talon Error", (-leftfwdtalon.getClosedLoopError() / 4096.0) * 4 * Math.PI);
+		SmartDashboard.putNumber("Right Encoder Talon Error", (rightfwdtalon.getClosedLoopError() / 4096.0) * 4 * Math.PI);
 		SmartDashboard.putNumber("Left Error",  MkMath.nativeUnitsPer100MstoInchesPerSec(-leftfwdtalon.getSetpoint()) - getLeftVelocity());
 		SmartDashboard.putNumber("Right Error",  MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getSetpoint()) - getRightVelocity());
 		SmartDashboard.putNumber("Left Encoder Talon Setpoint", -MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getSetpoint()));
