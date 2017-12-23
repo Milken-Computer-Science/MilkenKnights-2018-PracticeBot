@@ -1,13 +1,14 @@
 package frc.team1836.robot.util;
 
-import com.ctre.CANTalon;
+
+import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
 import frc.team1836.robot.Constants;
 
 /**
  * CANTalon Wrapper for either Drive Talons or Rotational Talons PID Values for rotational talons
  * must be configured but not necessarily used
  */
-public class MkCANTalon extends CANTalon {
+public class MkCANTalon extends TalonSRX {
 
     private final double wheelDiameter;
     private final int codesPerRev = Constants.DRIVE.CODES_PER_REV;

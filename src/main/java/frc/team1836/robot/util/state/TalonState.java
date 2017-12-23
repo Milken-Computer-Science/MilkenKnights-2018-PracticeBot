@@ -1,6 +1,6 @@
 package frc.team1836.robot.util.state;
 
-import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.phoenix.MotorControl.SmartMotorController.TalonControlMode;
 
 public class TalonState {
 
