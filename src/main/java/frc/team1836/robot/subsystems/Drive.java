@@ -44,9 +44,9 @@ public class Drive extends Subsystem {
 		leftfwdtalon.configPeakOutputVoltage(+12.0f, -12.0f);
 		leftfwdtalon.setProfile(0);
 		leftfwdtalon.setF(DRIVE.LEFT_DRIVE_F);
-		leftfwdtalon.setP(DRIVE.LEFT_DRIVE_P);
-		leftfwdtalon.setI(DRIVE.LEFT_DRIVE_I);
-		leftfwdtalon.setD(DRIVE.LEFT_DRIVE_D);
+		leftfwdtalon.setP(DRIVE.DRIVE_P);
+		leftfwdtalon.setI(DRIVE.DRIVE_I);
+		leftfwdtalon.setD(DRIVE.DRIVE_D);
 		leftfwdtalon.setIZone(DRIVE.DRIVE_I_ZONE);
 		leftfwdtalon.setMotionMagicCruiseVelocity((int) DRIVE.DRIVE_V);
 		leftfwdtalon.setMotionMagicAcceleration((int) DRIVE.DRIVE_A);
@@ -57,9 +57,9 @@ public class Drive extends Subsystem {
 		rightfwdtalon.configPeakOutputVoltage(+12.0f, -12.0f);
 		rightfwdtalon.setProfile(0);
 		rightfwdtalon.setF(DRIVE.LEFT_DRIVE_F);
-		rightfwdtalon.setP(DRIVE.LEFT_DRIVE_P);
-		rightfwdtalon.setI(DRIVE.LEFT_DRIVE_I);
-		rightfwdtalon.setD(DRIVE.LEFT_DRIVE_D);
+		rightfwdtalon.setP(DRIVE.DRIVE_P);
+		rightfwdtalon.setI(DRIVE.DRIVE_I);
+		rightfwdtalon.setD(DRIVE.DRIVE_D);
 		rightfwdtalon.setIZone(DRIVE.DRIVE_I_ZONE);
 		rightfwdtalon.setMotionMagicCruiseVelocity((int) DRIVE.DRIVE_V);
 		rightfwdtalon.setMotionMagicAcceleration((int) DRIVE.DRIVE_A);

@@ -37,10 +37,10 @@ public final class Constants {
 		public static final double DRIVE_A = LEFT_MAX_VEL * 0.75;
 		public static final double DRIVE_V = LEFT_MAX_VEL * 0.75;
 		public static final int DRIVE_I_ZONE = 0;
-		public static final double LEFT_DRIVE_P = 0 * ((0.1 * 1023.0) / (700.0));
-		public static final double LEFT_DRIVE_I = 0;
-		public static final double LEFT_DRIVE_D = 0 * ((0.1 * 1023.0) / (400.0));
-		public static final double LEFT_DRIVE_F = (1023.0 / ((670.0 / 60.0 / 10.0) * 4096.0));
+		public static final double DRIVE_P = 0 * ((0.1 * 1023.0) / (700.0));
+		public static final double DRIVE_I = 0;
+		public static final double DRIVE_D = 0 * ((0.1 * 1023.0) / (400.0));
+		public static final double DRIVE_F = (1023.0 / ((670.0 / 60.0 / 10.0) * 4096.0));
 
 		public static final double DRIVE_FOLLOWER_P = 0;
 		public static final double DRIVE_FOLLOWER_V = 0;
