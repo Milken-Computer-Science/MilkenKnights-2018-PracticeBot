@@ -141,7 +141,7 @@ public class SpectrumJeVois {
 			camServer.setSource(visionCam);
 			camStreamRunning = true;
 			trackingEnable = true;
-			System.out.println("Vision Cam Stream 1 Opened!!");
+			System.out.println("Vision Cam Stream 1 Opened on port " + camServer.getPort());
 		} catch (Exception e) {
 			DriverStation.reportError("Cannot start camera stream 1 from JeVois", false);
             e.printStackTrace();
@@ -440,7 +440,6 @@ public class SpectrumJeVois {
     
     /**
      * Parse individual numbers from a packet
-     * @param pkt
      */
     public void parsePacket(String packet){
     	JSONParser parser = new JSONParser();
