@@ -1,5 +1,6 @@
 package frc.team1836.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1836.robot.util.drivers.SpectrumJeVois;
 import frc.team1836.robot.util.loops.Loop;
 import frc.team1836.robot.util.loops.Looper;
@@ -21,9 +22,12 @@ public class Vision extends Subsystem {
 
 	@Override
 	public void outputToSmartDashboard() {
-		System.out.println(jevoisCam.checkJeVoisConnection());
-		System.out.println(jevoisCam.isVisionOnline());
-		System.out.println("X: " + jevoisCam.getTx() + " Y: " + jevoisCam.getTy() + " A:" + jevoisCam.getTa() + " V: " + jevoisCam.getTv());
+		//System.out.println(jevoisCam.isVisionOnline());
+		SmartDashboard.putNumber("Target X: ", jevoisCam.getTx());
+		SmartDashboard.putNumber("Target Y: ", jevoisCam.getTy());
+		SmartDashboard.putNumber("Target Area: ", jevoisCam.getTa());
+		SmartDashboard.putBoolean("Target Acquired: ", jevoisCam.getTv());
+		//System.out.println("X: " + jevoisCam.getTx() + " Y: " + jevoisCam.getTy() + " A:" + jevoisCam.getTa() + " V: " + jevoisCam.getTv());
 		/* Output Below
 		wrote 5/5 bytes, cmd: ping
     JeVois Connection Good!

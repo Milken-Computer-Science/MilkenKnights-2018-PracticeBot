@@ -453,16 +453,16 @@ public class SpectrumJeVois {
              //System.out.println(jsonObject);
 
              tx = (double) jsonObject.get("tx");
-             System.out.println(tx);
+             //System.out.println(tx);
              
              ty = (double) jsonObject.get("ty");
-             System.out.println(ty);
+             //System.out.println(ty);
              
              ta = (double) jsonObject.get("ta");
-             System.out.println(ta);
+            // System.out.println(ta);
              
              tv = (boolean) jsonObject.get("tv");
-             System.out.println(tv);
+            // System.out.println(tv);
 
          } catch (Exception e){
         	 System.out.println("Parse Exception, probably need to check you JeVois output that it's matching what you are parsing");
