@@ -1,4 +1,4 @@
-package frc.team1836.robot.util.input;
+package frc.team1836.robot.util.drivers;
 
 import edu.wpi.first.wpilibj.Joystick;
 

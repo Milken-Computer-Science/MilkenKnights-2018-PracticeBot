@@ -1,4 +1,4 @@
-package org.spectrum3847.drivers;
+package frc.team1836.robot.util.drivers;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
