@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1836.robot.auto.AutoModeBase;
 import frc.team1836.robot.auto.AutoModeExecuter;
+import frc.team1836.robot.auto.modes.CenterAutoMode;
 import frc.team1836.robot.auto.modes.StandStillMode;
 import frc.team1836.robot.subsystems.Drive;
 import frc.team1836.robot.subsystems.LED;
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot {
             mSubsystemManager.registerEnabledLoops(mEnabledLooper);
             controller = new InputController();
             chooser.addObject("No Auto", new StandStillMode());
+            chooser.addObject("Center Auto", new CenterAutoMode());
             SmartDashboard.putData("Auto mode", chooser);
         } catch (Throwable t) {
             CrashTracker.logThrowableCrash(t);

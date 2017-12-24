@@ -11,7 +11,7 @@ public class InputController {
 		reverseState = Inputs.reverseButton.isPressed() ? -reverseState : reverseState;
 		double move = -Inputs.driverJoystick.getRawAxis(1) * reverseState;
 		double turn = Inputs.straightButton.isHeld() ? 0 : -Inputs.driverJoystick.getRawAxis(2);
-		Drive.getInstance().setOpenLoop(DriveHelper.cheesyDrive(0, 0, Inputs.cheezyButton.isHeld()));
+		Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(move, 0, Inputs.cheezyButton.isHeld()));
 	}
 
 

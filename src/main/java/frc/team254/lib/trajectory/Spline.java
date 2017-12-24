@@ -122,7 +122,7 @@ public class Spline {
       return arc_length_;
     }
 
-    final int kNumSamples = 100000;
+    final int kNumSamples = 10000;
     double arc_length = 0;
     double t, dydt;
     double integrand, last_integrand
@@ -139,7 +139,7 @@ public class Spline {
   }
 
   public double getPercentageForDistance(double distance) {
-    final int kNumSamples = 100000;
+    final int kNumSamples = 10000;
     double arc_length = 0;
     double t = 0;
     double last_arc_length = 0;

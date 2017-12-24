@@ -3,17 +3,18 @@ package frc.team1836.robot.subsystems;
 import static frc.team1836.robot.Constants.DRIVE;
 import static frc.team1836.robot.Constants.Hardware;
 
+import com.ctre.phoenix.Drive.Styles.Smart;
 import com.ctre.phoenix.MotorControl.SmartMotorController.FeedbackDevice;
 import com.ctre.phoenix.MotorControl.SmartMotorController.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1836.robot.util.MkMath;
+import frc.team1836.robot.util.Util;
 import frc.team1836.robot.util.drivers.MkCANTalon;
 import frc.team1836.robot.util.drivers.MkGyro;
-import frc.team1836.robot.util.MkMath;
 import frc.team1836.robot.util.logging.ReflectingCSVWriter;
-import frc.team1836.robot.util.Util;
 import frc.team1836.robot.util.loops.Loop;
 import frc.team1836.robot.util.loops.Looper;
 import frc.team1836.robot.util.state.DriveSignal;
@@ -40,39 +41,18 @@ public class Drive extends Subsystem {
 
 		leftfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		leftfwdtalon.reverseSensor(Hardware.LEFT_FWD_TALON_SENSOR_REVERSE);
-		leftfwdtalon.configNominalOutputVoltage(+0.0f, -0.0f);
-		leftfwdtalon.configPeakOutputVoltage(+12.0f, -12.0f);
-		leftfwdtalon.setProfile(0);
 		leftfwdtalon.setF(DRIVE.DRIVE_F);
 		leftfwdtalon.setP(DRIVE.DRIVE_P);
 		leftfwdtalon.setI(DRIVE.DRIVE_I);
 		leftfwdtalon.setD(DRIVE.DRIVE_D);
-		leftfwdtalon.setIZone(DRIVE.DRIVE_I_ZONE);
-		leftfwdtalon.setMotionMagicCruiseVelocity((int) DRIVE.DRIVE_V);
-		leftfwdtalon.setMotionMagicAcceleration((int) DRIVE.DRIVE_A);
+		leftfwdtalon.reverseOutput(true);
 
 		rightfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
 		rightfwdtalon.reverseSensor(Hardware.RIGHT_FWD_TALON_SENSOR_REVERSE);
-		rightfwdtalon.configNominalOutputVoltage(+0.0f, -0.0f);
-		rightfwdtalon.configPeakOutputVoltage(+12.0f, -12.0f);
-		rightfwdtalon.setProfile(0);
 		rightfwdtalon.setF(DRIVE.DRIVE_F);
 		rightfwdtalon.setP(DRIVE.DRIVE_P);
 		rightfwdtalon.setI(DRIVE.DRIVE_I);
 		rightfwdtalon.setD(DRIVE.DRIVE_D);
-		rightfwdtalon.setIZone(DRIVE.DRIVE_I_ZONE);
-		rightfwdtalon.setMotionMagicCruiseVelocity((int) DRIVE.DRIVE_V);
-		rightfwdtalon.setMotionMagicAcceleration((int) DRIVE.DRIVE_A);
-
-		leftfwdtalon.reverseOutput(Hardware.LEFT_FWD_TALON_REVERSE);
-		leftbacktalon.reverseOutput(Hardware.LEFT_BACK_TALON_REVERSE);
-		rightfwdtalon.reverseOutput(Hardware.RIGHT_FWD_TALON_REVERSE);
-		rightbacktalon.reverseOutput(Hardware.RIGHT_BACK_TALON_REVERSE);
-
-		leftfwdtalon.setPrint(false);
-		leftbacktalon.setPrint(false);
-		rightfwdtalon.setPrint(false);
-		rightbacktalon.setPrint(false);
 
 		mCSVWriter = new ReflectingCSVWriter<>("/home/lvuser/DRIVE-LOGS.csv", DriveDebugOutput.class);
 
@@ -82,7 +62,7 @@ public class Drive extends Subsystem {
 		rightbacktalon.changeControlMode(TalonControlMode.Follower);
 		leftbacktalon.set(Hardware.LEFT_FWD_TALON_ID);
 		rightbacktalon.set(Hardware.RIGHT_FWD_TALON_ID);
-		mDriveControlState = DriveControlState.OPEN_LOOP;
+		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
 		mDebug.leftPosition = 0;
 		mDebug.rightVelocity = 0;
 		mDebug.leftVelocity = 0;
@@ -103,17 +83,17 @@ public class Drive extends Subsystem {
 
 	@Override
 	public void outputToSmartDashboard() {
-		SmartDashboard.putNumber("Left Encoder Position", -MkMath.nativeUnitsToInches(leftfwdtalon.getEncPosition()));
-		SmartDashboard.putNumber("Right Encoder Position", MkMath.nativeUnitsToInches(rightfwdtalon.getEncPosition()));
-		SmartDashboard.putNumber("Left Encoder Velocity", getLeftVelocity());
-		SmartDashboard.putNumber("Right Encoder Velocity", getRightVelocity());
-		SmartDashboard.putNumber("Left Encoder Talon Error", -leftfwdtalon.getClosedLoopError());
-		SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getClosedLoopError());
-		SmartDashboard.putNumber("Left Error",  MkMath.nativeUnitsPer100MstoInchesPerSec(-leftfwdtalon.getSetpoint()) - getLeftVelocity());
-		SmartDashboard.putNumber("Right Error",  MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getSetpoint()) - getRightVelocity());
-		SmartDashboard.putNumber("Left Encoder Talon Setpoint", -MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getSetpoint()));
-		SmartDashboard.putNumber("Right Encoder Talon Setpoint", MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getSetpoint()));
+		SmartDashboard.putNumber("Left Encoder Position", leftfwdtalon.getPosition());
+		SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getPosition());
+		SmartDashboard.putNumber("Left Encoder Velocity", leftfwdtalon.getSpeed());
+		SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
+		SmartDashboard.putNumber("Left Encoder Talon Error", leftfwdtalon.getError());
+		SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
+		SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftfwdtalon.getSetpoint());
+		SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightfwdtalon.getSetpoint());
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
+		SmartDashboard.putNumber("Left PercentVBus", leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
+		SmartDashboard.putNumber("Right PercentVBus", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
 	}
 
 	public void stop() {
@@ -143,12 +123,12 @@ public class Drive extends Subsystem {
 				synchronized (Drive.this) {
 					mDebug.leftOutput = leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage();
 					mDebug.rightOutput = rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage();
-					mDebug.rightPosition = MkMath.nativeUnitsToInches(rightfwdtalon.getPosition());
-					mDebug.leftPosition = MkMath.nativeUnitsToInches(leftfwdtalon.getPosition());
-					mDebug.leftVelocity = getLeftVelocity();
-					mDebug.rightVelocity = getRightVelocity();
-					mDebug.leftSetpoint = MkMath.nativeUnitsToInches(rightfwdtalon.getSetpoint());
-					mDebug.rightSetpoint = MkMath.nativeUnitsToInches(leftfwdtalon.getSetpoint());
+					mDebug.rightPosition = rightfwdtalon.getPosition();
+					mDebug.leftPosition = leftfwdtalon.getPosition();
+					mDebug.leftVelocity = leftfwdtalon.getSpeed();
+					mDebug.rightVelocity = rightfwdtalon.getSpeed();
+					mDebug.leftSetpoint = leftfwdtalon.getSetpoint();
+					mDebug.rightSetpoint = rightfwdtalon.getSetpoint();
 					mDebug.timestamp = timestamp;
 					mDebug.controlMode = mDriveControlState.toString();
 					mCSVWriter.add(mDebug);
@@ -173,8 +153,7 @@ public class Drive extends Subsystem {
 				stop();
 				mCSVWriter.flush();
 			}
-		};
-		enabledLooper.register(mLoop);
+		}; enabledLooper.register(mLoop);
 	}
 
 	public synchronized void setOpenLoop(DriveSignal signal) {
@@ -202,12 +181,9 @@ public class Drive extends Subsystem {
 
 	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
-			leftfwdtalon.set(-MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
+			leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
 			rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
 		}
-		//System.out.println("Left: " + -MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec) + " Right: " + MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
-		SmartDashboard.putNumber("Left Setpoint Velocity", left_inches_per_sec);
-		SmartDashboard.putNumber("Right Setpoint Velocity", right_inches_per_sec);
 	}
 
 	private synchronized void resetEncoders() {
@@ -373,13 +349,5 @@ public class Drive extends Subsystem {
 		public double rightPosition;
 		public double leftVelocity;
 		public double rightVelocity;
-	}
-
-	public double getLeftVelocity() {
-		return -MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity());
-	}
-
-	public double getRightVelocity() {
-		return MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity());
 	}
 }

@@ -14,10 +14,6 @@ public final class Constants {
 		public static final int LED_STRIP_ID = 30;
 		public static final boolean LEFT_FWD_TALON_SENSOR_REVERSE = false;
 		public static final boolean RIGHT_FWD_TALON_SENSOR_REVERSE = false;
-		public static final boolean LEFT_FWD_TALON_REVERSE = false;
-		public static final boolean LEFT_BACK_TALON_REVERSE = false;
-		public static final boolean RIGHT_FWD_TALON_REVERSE = false;
-		public static final boolean RIGHT_BACK_TALON_REVERSE = false;
 		public static double kLooperDt = 0.005;
 	}
 
