@@ -1,7 +1,7 @@
 package frc.team1836.robot;
 
 import frc.team1836.robot.subsystems.Drive;
-import frc.team1836.robot.util.DriveHelper;
+import frc.team1836.robot.util.state.DriveHelper;
 
 public class InputController {
 
@@ -11,7 +11,7 @@ public class InputController {
 		reverseState = Inputs.reverseButton.isPressed() ? -reverseState : reverseState;
 		double move = -Inputs.driverJoystick.getRawAxis(1) * reverseState;
 		double turn = Inputs.straightButton.isHeld() ? 0 : -Inputs.driverJoystick.getRawAxis(2);
-		Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(0.35, 0, Inputs.cheezyButton.isHeld()));
+		Drive.getInstance().setOpenLoop(DriveHelper.cheesyDrive(0, 0, Inputs.cheezyButton.isHeld()));
 	}
 
 

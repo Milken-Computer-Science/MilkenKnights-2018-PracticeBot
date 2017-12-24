@@ -8,7 +8,9 @@ import frc.team1836.robot.auto.AutoModeBase;
 import frc.team1836.robot.auto.AutoModeExecuter;
 import frc.team1836.robot.auto.modes.StandStillMode;
 import frc.team1836.robot.subsystems.Drive;
-import frc.team1836.robot.util.CrashTracker;
+import frc.team1836.robot.subsystems.LED;
+import frc.team1836.robot.subsystems.Vision;
+import frc.team1836.robot.util.logging.CrashTracker;
 import frc.team1836.robot.util.loops.Looper;
 
 import java.util.Arrays;
@@ -16,7 +18,7 @@ import java.util.Arrays;
 public class Robot extends IterativeRobot {
 
     private final SubsystemManager mSubsystemManager = new SubsystemManager(
-            Arrays.asList(Drive.getInstance()));
+            Arrays.asList(Drive.getInstance(), Vision.getInstance(), LED.getInstance()));
     private Looper mEnabledLooper = new Looper();
     private SendableChooser<AutoModeBase> chooser = new SendableChooser<>();
     private AutoModeExecuter mAutoModeExecuter = null;

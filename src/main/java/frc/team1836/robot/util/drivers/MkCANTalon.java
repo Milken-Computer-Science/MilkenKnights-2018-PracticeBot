@@ -1,4 +1,4 @@
-package frc.team1836.robot.util;
+package frc.team1836.robot.util.input;
 
 
 import com.ctre.phoenix.MotorControl.CAN.TalonSRX;

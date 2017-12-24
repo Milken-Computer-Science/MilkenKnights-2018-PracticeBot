@@ -1,7 +1,7 @@
 package frc.team1836.robot.auto;
 
 
-import frc.team1836.robot.util.CrashTrackingRunnable;
+import frc.team1836.robot.util.logging.CrashTrackingRunnable;
 
 /**
  * This class selects, runs, and stops (if necessary) a specified autonomous mode.
