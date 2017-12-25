@@ -2,6 +2,7 @@ package frc.team1836.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1836.robot.util.drivers.SpectrumJeVois;
+import frc.team1836.robot.util.logging.CrashTracker;
 import frc.team1836.robot.util.loops.Loop;
 import frc.team1836.robot.util.loops.Looper;
 
@@ -11,8 +12,13 @@ public class Vision extends Subsystem {
 	SpectrumJeVois jevoisCam;
 
 	private Vision() {
-		jevoisCam = new SpectrumJeVois();
-		jevoisCam.startCameraStream1();
+		try {
+			jevoisCam = new SpectrumJeVois();
+			jevoisCam.startCameraStream1();
+		} catch (Throwable t) {
+			CrashTracker.logThrowableCrash(t);
+			throw t;
+		}
 	}
 
 	public static Vision getInstance() {

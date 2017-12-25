@@ -41,15 +41,13 @@ public class Drive extends Subsystem {
 		rightfwdtalon = new MkCANTalon(Hardware.RIGHT_FWD_TALON_ID, DRIVE.WHEEL_DIAMETER);
 
 		leftfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		leftfwdtalon.reverseSensor(Hardware.LEFT_FWD_TALON_SENSOR_REVERSE);
 		leftfwdtalon.setF(DRIVE.DRIVE_F);
 		leftfwdtalon.setP(DRIVE.DRIVE_P);
 		leftfwdtalon.setI(DRIVE.DRIVE_I);
 		leftfwdtalon.setD(DRIVE.DRIVE_D);
-		leftfwdtalon.reverseOutput(true);
+		leftfwdtalon.setInverted(true);
 
 		rightfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
-		rightfwdtalon.reverseSensor(Hardware.RIGHT_FWD_TALON_SENSOR_REVERSE);
 		rightfwdtalon.setF(DRIVE.DRIVE_F);
 		rightfwdtalon.setP(DRIVE.DRIVE_P);
 		rightfwdtalon.setI(DRIVE.DRIVE_I);
@@ -331,7 +329,11 @@ public class Drive extends Subsystem {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!!! Drive RPMs different !!!!!!!!!!!!!!!!!!!");
 		}
-
+		if (failure){
+			System.out.println("FAILED");
+		} else{
+			System.out.println("SUCCESS");
+		}
 		return !failure;
 	}
 

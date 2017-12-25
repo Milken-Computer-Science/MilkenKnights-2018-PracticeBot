@@ -11,7 +11,6 @@ import frc.team1836.robot.Constants;
 public class MkCANTalon extends TalonSRX {
 
 	private final int codesPerRev = Constants.DRIVE.CODES_PER_REV;
-	private int reverse = 1;
 
 	public MkCANTalon(int deviceNumber, double wheelDiameter) {
 		super(deviceNumber);
@@ -41,34 +40,27 @@ public class MkCANTalon extends TalonSRX {
 
 	@Override
 	public void set(double val) {
-		super.set(val * reverse);
-	}
-
-	@Override
-	public void reverseOutput(boolean out) {
-		if (out) {
-			reverse = -1;
-		}
+		super.set(val);
 	}
 
 	@Override
 	public double getSpeed() {
-		return nativeUnitsPer100MstoInchesPerSec(super.getSpeed() * reverse);
+		return nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
 	}
 
 	@Override
 	public double getPosition() {
-		return nativeUnitsToInches(super.getPosition() * reverse);
+		return nativeUnitsToInches(super.getPosition());
 	}
 
 	@Override
 	public double getError() {
-		return nativeUnitsToInches(super.getError() * reverse);
+		return nativeUnitsToInches(super.getError());
 	}
 
 	@Override
 	public double getSetpoint() {
-		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint() * reverse);
+		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint());
 	}
 
 	private double nativeUnitsToInches(double units) {

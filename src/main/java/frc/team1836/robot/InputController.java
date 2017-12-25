@@ -1,6 +1,7 @@
 package frc.team1836.robot;
 
 import frc.team1836.robot.subsystems.Drive;
+import frc.team1836.robot.subsystems.LED;
 import frc.team1836.robot.util.state.DriveHelper;
 
 public class InputController {
@@ -16,6 +17,7 @@ public class InputController {
 		} else {
 			Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(0, 0, Inputs.cheezyButton.isHeld()));
 		}
+		LED.getInstance().setHSV((float) Inputs.driverJoystick.getRawAxis(0), (float) Inputs.driverJoystick.getRawAxis(1));
 	}
 
 
