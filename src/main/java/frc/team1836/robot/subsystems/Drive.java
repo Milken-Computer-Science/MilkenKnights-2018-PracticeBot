@@ -3,7 +3,6 @@ package frc.team1836.robot.subsystems;
 import static frc.team1836.robot.Constants.DRIVE;
 import static frc.team1836.robot.Constants.Hardware;
 
-import com.ctre.phoenix.Drive.Styles.Smart;
 import com.ctre.phoenix.MotorControl.SmartMotorController.FeedbackDevice;
 import com.ctre.phoenix.MotorControl.SmartMotorController.TalonControlMode;
 import com.kauailabs.navx.frc.AHRS;
@@ -31,6 +30,8 @@ public class Drive extends Subsystem {
 	private MkGyro navX;
 	private DriveControlState mDriveControlState;
 	private PathFollower mPathFollower;
+	private double leftSetpoint = 0.0;
+	private double rightSetpoint = 0.0;
 
 	private Drive() {
 		navX = new MkGyro(new AHRS(SPI.Port.kMXP));
@@ -89,8 +90,8 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
 		SmartDashboard.putNumber("Left Encoder Talon Error", leftfwdtalon.getError());
 		SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
-		SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftfwdtalon.getSetpoint());
-		SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightfwdtalon.getSetpoint());
+		SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftSetpoint);
+		SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
 		SmartDashboard.putNumber("Left PercentVBus", leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
 		SmartDashboard.putNumber("Right PercentVBus", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
@@ -153,7 +154,8 @@ public class Drive extends Subsystem {
 				stop();
 				mCSVWriter.flush();
 			}
-		}; enabledLooper.register(mLoop);
+		};
+		enabledLooper.register(mLoop);
 	}
 
 	public synchronized void setOpenLoop(DriveSignal signal) {
@@ -183,6 +185,8 @@ public class Drive extends Subsystem {
 		if (usesTalonVelocityControl(mDriveControlState)) {
 			leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
 			rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
+			leftSetpoint = left_inches_per_sec;
+			rightSetpoint = right_inches_per_sec;
 		}
 	}
 

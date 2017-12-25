@@ -68,7 +68,7 @@ public class MkCANTalon extends TalonSRX {
 
 	@Override
 	public double getSetpoint() {
-		return nativeUnitsToInches(super.getSetpoint() * reverse);
+		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint() * reverse);
 	}
 
 	private double nativeUnitsToInches(double units) {

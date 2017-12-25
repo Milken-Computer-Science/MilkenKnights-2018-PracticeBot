@@ -27,17 +27,15 @@ public final class Constants {
 
 	public static class DRIVE {
 
+		public static final double JOY_TOL = 0.05;
 		public static final double WHEEL_DIAMETER = 4;
 		public static final double CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
-		public static final double LEFT_MAX_VEL = (670 / 60) * (CIRCUMFERENCE); // Inches per second
-		public static final double RIGHT_MAX_VEL = (700 / 60) * (CIRCUMFERENCE); // Inches per second
-		public static final double DRIVE_A = LEFT_MAX_VEL * 0.75;
-		public static final double DRIVE_V = LEFT_MAX_VEL * 0.75;
-		public static final int DRIVE_I_ZONE = 0;
-		public static final double DRIVE_P = 0 * ((0.1 * 1023.0) / (700.0));
-		public static final double DRIVE_I = 0;
-		public static final double DRIVE_D = 0 * ((0.1 * 1023.0) / (400.0));
-		public static final double DRIVE_F = (1023.0 / ((670.0 / 60.0 / 10.0) * 4096.0));
+		public static final double RPM_MAX = 840.0;
+		public static final double LEFT_MAX_VEL = (RPM_MAX / 60) * (CIRCUMFERENCE); // Inches per second
+		public static final double DRIVE_P = 1.0 * ((0.1 * 1023.0) / (300.00));
+		public static final double DRIVE_I = DRIVE_P / 100.0;
+		public static final double DRIVE_D = 15 * DRIVE_P;
+		public static final double DRIVE_F = (1023.0 / ((RPM_MAX / 60.0 / 10.0) * 4096.0));
 
 		public static final double DRIVE_FOLLOWER_P = 0;
 		public static final double DRIVE_FOLLOWER_V = 0;
