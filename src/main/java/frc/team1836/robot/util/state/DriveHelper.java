@@ -1,7 +1,5 @@
 package frc.team1836.robot.util.state;
 
-import frc.team1836.robot.util.state.DriveSignal;
-
 public class DriveHelper {
 
 	private static final double kThrottleDeadband = 0.05;

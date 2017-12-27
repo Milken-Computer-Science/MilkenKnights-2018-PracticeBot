@@ -12,11 +12,11 @@ import frc.team1836.robot.util.loops.Looper;
 public class LED extends Subsystem {
 
 	private static LED mInstance = new LED();
-	private CANifier ledStrip;
 	private static float _rgb[] = new float[3];
 	public float Hue;
 	public float Saturation;
 	public float Value;
+	private CANifier ledStrip;
 	private MovingAverage _averageR = new MovingAverage(10);
 	private MovingAverage _averageG = new MovingAverage(10);
 	private MovingAverage _averageB = new MovingAverage(10);

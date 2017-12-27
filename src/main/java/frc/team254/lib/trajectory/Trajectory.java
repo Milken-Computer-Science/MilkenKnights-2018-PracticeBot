@@ -16,6 +16,7 @@ public class Trajectory {
 			segments_[i] = new Segment();
 		}
 	}
+
 	public Trajectory(Segment[] segments) {
 		segments_ = segments;
 	}
@@ -91,6 +92,22 @@ public class Trajectory {
 		return toString();
 	}
 
+	public String toString() {
+		String str = "Segment\tPos\tVel\tAcc\tJerk\tHeading\n";
+		for (int i = 0; i < getNumSegments(); ++i) {
+			Trajectory.Segment segment = getSegment(i);
+			str += i + "\t";
+			str += segment.pos + "\t";
+			str += segment.vel + "\t";
+			str += segment.acc + "\t";
+			str += segment.jerk + "\t";
+			str += segment.heading + "\t";
+			str += "\n";
+		}
+
+		return str;
+	}
+
 	public String toStringEuclidean() {
 		String str = "Segment\tx\ty\tHeading\n";
 		for (int i = 0; i < getNumSegments(); ++i) {
@@ -109,24 +126,11 @@ public class Trajectory {
 
 		public Trajectory left;
 		public Trajectory right;
+
 		public Pair(Trajectory left, Trajectory right) {
 			this.left = left;
 			this.right = right;
 		}
-	}	public String toString() {
-		String str = "Segment\tPos\tVel\tAcc\tJerk\tHeading\n";
-		for (int i = 0; i < getNumSegments(); ++i) {
-			Trajectory.Segment segment = getSegment(i);
-			str += i + "\t";
-			str += segment.pos + "\t";
-			str += segment.vel + "\t";
-			str += segment.acc + "\t";
-			str += segment.jerk + "\t";
-			str += segment.heading + "\t";
-			str += "\n";
-		}
-
-		return str;
 	}
 
 	public static class Segment {

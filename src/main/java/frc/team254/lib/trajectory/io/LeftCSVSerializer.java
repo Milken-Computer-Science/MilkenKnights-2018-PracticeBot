@@ -4,7 +4,6 @@ package frc.team254.lib.trajectory.io;
 import frc.team254.lib.trajectory.Path;
 import frc.team254.lib.trajectory.Trajectory;
 import frc.team254.lib.trajectory.Trajectory.Segment;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
