@@ -36,7 +36,7 @@ public class HsvToRgb {
 			double qv = V * (1 - S * f);
 			double tv = V * (1 - S * (1 - f));
 			switch (i) {
-				/* Red is dominant color */
+		    /* Red is dominant color */
 				case 0:
 					R = V;
 					G = tv;

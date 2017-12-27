@@ -71,6 +71,11 @@ public class Drive extends Subsystem {
 		return mInstance;
 	}
 
+	private static boolean usesTalonVelocityControl(DriveControlState state) {
+		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state
+				== DriveControlState.PATH_FOLLOWING));
+	}
+
 	@Override
 	public void writeToLog() {
 		mCSVWriter.write();
@@ -201,11 +206,6 @@ public class Drive extends Subsystem {
 			leftSetpoint = left_inches_per_sec;
 			rightSetpoint = right_inches_per_sec;
 		}
-	}
-
-	private static boolean usesTalonVelocityControl(DriveControlState state) {
-		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state
-				== DriveControlState.PATH_FOLLOWING));
 	}
 
 	public boolean trajectoryFinished() {

@@ -26,10 +26,10 @@ public class SpectrumJeVois {
 	//JeVois Camera Number
 	static final int JEVOIS_CAM_NUMBER = 0;
 
-	// Serial Port Constants 
+	// Serial Port Constants
 	static final int BAUD_RATE = 115200;
 
-	// MJPG Streaming Constants 
+	// MJPG Streaming Constants
 	static final int MJPG_STREAM_PORT = 1180;
 
 	// JeVois Program Selection Constants - must align with JeVois .cfg files
@@ -42,25 +42,25 @@ public class SpectrumJeVois {
 	static final int MAPPING_HEIGHT_PXL_2 = 240;
 	static final int MAPPING_FRMRT_FPS_2 = 15;
 
-	// Packet format constants 
+	// Packet format constants
 	static final String PACKET_START_CHAR = "{";
 	static final String PACKET_END_CHAR = "}";
 	static final String PACKET_DILEM_CHAR = ",";
 
-	// Serial port used for getting target data from JeVois 
+	// Serial port used for getting target data from JeVois
 	SerialPort visionPort = null;
 
-	// USBCam and server used for broadcasting a webstream of what is seen 
+	// USBCam and server used for broadcasting a webstream of what is seen
 	UsbCamera visionCam = null;
 	MjpegServer camServer = null;
 
-	// Status variables 
+	// Status variables
 	boolean camStreamRunning = false;
 	boolean trackingOnline = false;
 	boolean trackingEnable = true;
 	boolean serOutEnable = false;
 
-	// Most recently seen target 
+	// Most recently seen target
 	private double tx;      //x coordinate of target center
 	private double ty;      //y coordinate of target center
 	private double ta;      //area of target
@@ -90,6 +90,30 @@ public class SpectrumJeVois {
 		//Start listening for packets
 		System.out.println("Starting JeVois Listener Threads");
 		jevoisListenerThread.start();
+	}
+
+	public static String executeCommand(String command) {
+
+		StringBuffer output = new StringBuffer();
+
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(command);
+			p.waitFor();
+			BufferedReader reader =
+					new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				output.append(line + "\n");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return output.toString();
+
 	}
 
 	/*
@@ -167,7 +191,6 @@ public class SpectrumJeVois {
 	 * Automatically ends the line termination character.
 	 *
 	 * @param cmd String of the command to send (ex: "ping")
-	 *
 	 * @return 0 if OK detected, -1 if ERR detected, -2 if timeout waiting for response
 	 */
 	public int sendCmdAndCheck(String cmd) {
@@ -186,7 +209,6 @@ public class SpectrumJeVois {
 	 * Sends a command over serial to JeVois and returns immediately.
 	 *
 	 * @param cmd String of the command to send (ex: "ping")
-	 *
 	 * @return number of bytes written
 	 */
 	private int sendCmd(String cmd) {
@@ -195,6 +217,8 @@ public class SpectrumJeVois {
 		System.out.println("wrote " + bytes + "/" + (cmd.length() + 1) + " bytes, cmd: " + cmd);
 		return bytes;
 	}
+
+	;
 
 	/**
 	 * Blocks thread execution till we get a response from the serial line or timeout. Return values:
@@ -247,8 +271,6 @@ public class SpectrumJeVois {
 			e.printStackTrace();
 		}
 	}
-
-	;
 
 	/**
 	 * Cease the operation of the camera stream. Unknown if needed.
@@ -508,29 +530,5 @@ public class SpectrumJeVois {
 		this.sendCmd("usbsd");
 		Timer.delay(1);
 		return executeCommand("mount /dev/disk/by-id/usb-JeVois_Smart_Camera-0:0 /media/JEVOIS");
-	}
-
-	public static String executeCommand(String command) {
-
-		StringBuffer output = new StringBuffer();
-
-		Process p;
-		try {
-			p = Runtime.getRuntime().exec(command);
-			p.waitFor();
-			BufferedReader reader =
-					new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				output.append(line + "\n");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return output.toString();
-
 	}
 }

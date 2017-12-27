@@ -42,7 +42,6 @@ public class TrajectoryGenerator {
 	 * @param goal_pos The goal position
 	 * @param goal_vel The goal velocity (WARNING: May be ignored)
 	 * @param goal_heading The goal heading
-	 *
 	 * @return A Trajectory that satisfies the relevant constraints and end conditions.
 	 */
 	public static Trajectory generate(

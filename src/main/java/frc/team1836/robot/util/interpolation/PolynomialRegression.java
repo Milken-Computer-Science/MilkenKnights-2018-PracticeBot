@@ -47,6 +47,17 @@ public class PolynomialRegression {
 		solve(x, y, degree);
 	}
 
+	/**
+	 * Performs a polynomial regression on the data points {@code (y[i], x[i])}.
+	 *
+	 * @param x the values of the predictor variable
+	 * @param y the corresponding values of the response variable
+	 * @param degree the degree of the polynomial to fit
+	 */
+	public PolynomialRegression(double[] x, double[] y, int degree) {
+		solve(x, y, degree);
+	}
+
 	private void solve(double[] x, double[] y, int degree) {
 		this.degree = degree;
 
@@ -101,17 +112,6 @@ public class PolynomialRegression {
 	}
 
 	/**
-	 * Performs a polynomial regression on the data points {@code (y[i], x[i])}.
-	 *
-	 * @param x the values of the predictor variable
-	 * @param y the corresponding values of the response variable
-	 * @param degree the degree of the polynomial to fit
-	 */
-	public PolynomialRegression(double[] x, double[] y, int degree) {
-		solve(x, y, degree);
-	}
-
-	/**
 	 * Returns the degree of the polynomial to fit.
 	 *
 	 * @return the degree of the polynomial to fit
@@ -124,7 +124,6 @@ public class PolynomialRegression {
 	 * Returns the expected response {@code y} given the value of the predictor variable {@code x}.
 	 *
 	 * @param x the value of the predictor variable
-	 *
 	 * @return the expected response {@code y} given the value of the predictor variable {@code x}
 	 */
 	public double predict(double x) {
@@ -140,7 +139,6 @@ public class PolynomialRegression {
 	 * Returns the {@code j}th regression coefficient.
 	 *
 	 * @param j the index
-	 *
 	 * @return the {@code j}th regression coefficient
 	 */
 	public double beta(int j) {

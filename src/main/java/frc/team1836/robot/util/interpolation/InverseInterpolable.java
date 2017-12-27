@@ -6,7 +6,6 @@ package frc.team1836.robot.util.interpolation;
  * interpolation parameter of the query key on the interval [0, 1].
  *
  * @param <T> The Type of InverseInterpolable
- *
  * @see InterpolatingTreeMap
  */
 public interface InverseInterpolable<T> {

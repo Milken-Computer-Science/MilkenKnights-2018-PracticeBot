@@ -211,6 +211,10 @@ public class Spline {
 		return ypp_hat;
 	}
 
+	public String toString() {
+		return "a=" + a_ + "; b=" + b_ + "; c=" + c_ + "; d=" + d_ + "; e=" + e_;
+	}
+
 	public static class Type {
 
 		private final String value_;
@@ -222,9 +226,5 @@ public class Spline {
 		public String toString() {
 			return value_;
 		}
-	}
-
-	public String toString() {
-		return "a=" + a_ + "; b=" + b_ + "; c=" + c_ + "; d=" + d_ + "; e=" + e_;
 	}
 }

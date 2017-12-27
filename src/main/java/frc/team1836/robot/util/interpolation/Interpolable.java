@@ -6,7 +6,6 @@ package frc.team1836.robot.util.interpolation;
  * the interpolated value.
  *
  * @param <T> The Type of Interpolable
- *
  * @see InterpolatingTreeMap
  */
 public interface Interpolable<T> {
@@ -18,7 +17,6 @@ public interface Interpolable<T> {
 	 *
 	 * @param other The value of the upper bound
 	 * @param x The requested value. Should be between 0 and 1.
-	 *
 	 * @return Interpolable<T> The estimated average between the surrounding data
 	 */
 	public T interpolate(T other, double x);

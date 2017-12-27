@@ -32,7 +32,7 @@ public class MovingAverage {
 	}
 
 	public void Push(float d) {
-		/* process it */
+	  /* process it */
 		_sum += d;
 
 		/* if full, pop one */

@@ -110,7 +110,6 @@ public class ChezyMath {
 	 *
 	 * @param from The first angle
 	 * @param to The second angle
-	 *
 	 * @return The change in angle from the first argument necessary to line up with the second.
 	 * Always between -Pi and Pi
 	 */
@@ -134,7 +133,6 @@ public class ChezyMath {
 	 *
 	 * @param from The first angle
 	 * @param to The second angle
-	 *
 	 * @return The change in angle from the first argument necessary to line up with the second.
 	 * Always between -180 and 180
 	 */

@@ -6,7 +6,7 @@ package frc.team1836.robot.util.interpolation.jama;
  * length m so that A(piv,:) = L*U. If m < n, then L is m-by-m and U is m-by-n. <P> The LU
  * decompostion with pivoting always exists, even if the matrix is singular, so the constructor will
  * never fail.  The primary use of the LU decomposition is in the solution of square systems of
- * simultaneous linear equations.  This will fail if isNonsingular() returns false.
+ * simultaneous linear equations. This will fail if isNonsingular() returns false.
  */
 
 public class LUDecomposition implements java.io.Serializable {
@@ -275,7 +275,6 @@ public class LUDecomposition implements java.io.Serializable {
 	 * Solve A*X = B
 	 *
 	 * @param B A Matrix with as many rows as A and any number of columns.
-	 *
 	 * @return X so that L*U*X = B(piv,:)
 	 * @throws IllegalArgumentException Matrix row dimensions must agree.
 	 * @throws RuntimeException Matrix is singular.

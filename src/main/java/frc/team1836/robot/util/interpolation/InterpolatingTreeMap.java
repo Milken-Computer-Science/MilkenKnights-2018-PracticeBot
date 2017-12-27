@@ -35,7 +35,6 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
 	 *
 	 * @param key Key for inserted data
 	 * @param value Value for inserted data
-	 *
 	 * @return the value
 	 */
 	@Override
@@ -53,7 +52,6 @@ public class InterpolatingTreeMap<K extends InverseInterpolable<K> & Comparable<
 
 	/**
 	 * @param key Lookup for a value (does not have to exist)
-	 *
 	 * @return V or null; V if it is Interpolable or exists, null if it is at a bound and cannot
 	 * average
 	 */
