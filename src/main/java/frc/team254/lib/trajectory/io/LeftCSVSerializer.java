@@ -18,13 +18,12 @@ import java.io.IOException;
 public class LeftCSVSerializer implements IPathSerializer {
 
 	/**
-	 * Format: PathName NumSegments LeftSegment1 ... LeftSegmentN RightSegment1 ...
-	 * RightSegmentN
+	 * Format: PathName NumSegments LeftSegment1 ... LeftSegmentN RightSegment1 ... RightSegmentN
 	 *
 	 * Each segment is in the format: pos vel acc jerk heading dt x y
 	 *
-	 * @param path
-	 *            The path to serialize.
+	 * @param path The path to serialize.
+	 *
 	 * @return A string representation.
 	 */
 	@Override
@@ -39,8 +38,10 @@ public class LeftCSVSerializer implements IPathSerializer {
 		String content = "";
 		for (int i = 0; i < trajectory.getNumSegments(); ++i) {
 			Segment segment = trajectory.getSegment(i);
-			content += String.format("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n", segment.pos, segment.vel, segment.acc,
-					segment.jerk, segment.heading, segment.dt * i, segment.x, segment.y);
+			content += String
+					.format("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n", segment.pos, segment.vel,
+							segment.acc,
+							segment.jerk, segment.heading, segment.dt * i, segment.x, segment.y);
 		}
 		return content;
 	}

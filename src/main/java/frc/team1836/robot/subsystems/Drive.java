@@ -71,10 +71,6 @@ public class Drive extends Subsystem {
 		return mInstance;
 	}
 
-	private static boolean usesTalonVelocityControl(DriveControlState state) {
-		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state == DriveControlState.PATH_FOLLOWING));
-	}
-
 	@Override
 	public void writeToLog() {
 		mCSVWriter.write();
@@ -91,8 +87,10 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftSetpoint);
 		SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
-		SmartDashboard.putNumber("Left PercentVBus", leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
-		SmartDashboard.putNumber("Right PercentVBus", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
+		SmartDashboard.putNumber("Left PercentVBus",
+				leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
+		SmartDashboard.putNumber("Right PercentVBus",
+				rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
 	}
 
 	public void stop() {
@@ -166,26 +164,11 @@ public class Drive extends Subsystem {
 		rightfwdtalon.set(signal.getRight());
 	}
 
-	private synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+	private synchronized void setVelocitySetpoint(double left_inches_per_sec,
+			double right_inches_per_sec) {
 		configureTalonsForSpeedControl();
 		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
 		updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
-	}
-
-	private void configureTalonsForSpeedControl() {
-		if (!usesTalonVelocityControl(mDriveControlState)) {
-			leftfwdtalon.changeControlMode(TalonControlMode.Speed);
-			rightfwdtalon.changeControlMode(TalonControlMode.Speed);
-		}
-	}
-
-	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
-		if (usesTalonVelocityControl(mDriveControlState)) {
-			leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
-			rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
-			leftSetpoint = left_inches_per_sec;
-			rightSetpoint = right_inches_per_sec;
-		}
 	}
 
 	private synchronized void resetEncoders() {
@@ -203,6 +186,28 @@ public class Drive extends Subsystem {
 		updateVelocitySetpoint(sig.getLeft() * DRIVE.LEFT_MAX_VEL, sig.getRight() * DRIVE.LEFT_MAX_VEL);
 	}
 
+	private void configureTalonsForSpeedControl() {
+		if (!usesTalonVelocityControl(mDriveControlState)) {
+			leftfwdtalon.changeControlMode(TalonControlMode.Speed);
+			rightfwdtalon.changeControlMode(TalonControlMode.Speed);
+		}
+	}
+
+	private synchronized void updateVelocitySetpoint(double left_inches_per_sec,
+			double right_inches_per_sec) {
+		if (usesTalonVelocityControl(mDriveControlState)) {
+			leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
+			rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
+			leftSetpoint = left_inches_per_sec;
+			rightSetpoint = right_inches_per_sec;
+		}
+	}
+
+	private static boolean usesTalonVelocityControl(DriveControlState state) {
+		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state
+				== DriveControlState.PATH_FOLLOWING));
+	}
+
 	public boolean trajectoryFinished() {
 		return mPathFollower.onTarget() & mPathFollower.getFinished();
 	}
@@ -212,15 +217,18 @@ public class Drive extends Subsystem {
 	}
 
 	public void setPathFollower(Path mPath) {
-		mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL, DRIVE.DRIVE_FOLLOWER_ANG_TOL);
+		mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL,
+				DRIVE.DRIVE_FOLLOWER_ANG_TOL);
 	}
 
 	private void updatePathFollower(double timestamp) {
 		double leftVel = mPathFollower
-				.getLeftVelocity(MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()), MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()),
+				.getLeftVelocity(MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()),
+						MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()),
 						navX.getYaw());
 		double rightVel = mPathFollower
-				.getRightVelocity(MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()), MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity()),
+				.getRightVelocity(MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()),
+						MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity()),
 						-navX.getYaw());
 		updateVelocitySetpoint(leftVel, rightVel);
 	}
@@ -279,9 +287,15 @@ public class Drive extends Subsystem {
 		leftbacktalon.changeControlMode(TalonControlMode.Follower);
 		leftbacktalon.set(Hardware.LEFT_FWD_TALON_ID);
 
-		System.out.println("Drive Right Master Current: " + currentRightMaster + " Drive Right Slave Current: " + currentRightSlave);
-		System.out.println("Drive Left Master Current: " + currentLeftMaster + " Drive Left Slave Current: " + currentLeftSlave);
-		System.out.println("Drive RPM RMaster: " + rpmRightMaster + " RSlave: " + rpmRightSlave + " LMaster: " + rpmLeftMaster + " LSlave: " + rpmLeftSlave);
+		System.out.println(
+				"Drive Right Master Current: " + currentRightMaster + " Drive Right Slave Current: "
+						+ currentRightSlave);
+		System.out.println(
+				"Drive Left Master Current: " + currentLeftMaster + " Drive Left Slave Current: "
+						+ currentLeftSlave);
+		System.out.println(
+				"Drive RPM RMaster: " + rpmRightMaster + " RSlave: " + rpmRightSlave + " LMaster: "
+						+ rpmLeftMaster + " LSlave: " + rpmLeftSlave);
 
 		boolean failure = false;
 
@@ -305,12 +319,14 @@ public class Drive extends Subsystem {
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Slave Current Low !!!!!!!!!!");
 		}
 
-		if (!Util.allCloseTo(Arrays.asList(currentRightMaster, currentRightSlave), currentRightMaster, 5.0)) {
+		if (!Util.allCloseTo(Arrays.asList(currentRightMaster, currentRightSlave), currentRightMaster,
+				5.0)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Right Currents Different !!!!!!!!!!");
 		}
 
-		if (!Util.allCloseTo(Arrays.asList(currentLeftMaster, currentLeftSlave), currentLeftSlave, 5.0)) {
+		if (!Util
+				.allCloseTo(Arrays.asList(currentLeftMaster, currentLeftSlave), currentLeftSlave, 5.0)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Currents Different !!!!!!!!!!!!!");
 		}
@@ -325,13 +341,14 @@ public class Drive extends Subsystem {
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Master RPM Low !!!!!!!!!!!!!!!!!!!");
 		}
 
-		if (!Util.allCloseTo(Arrays.asList(rpmRightMaster, rpmRightSlave, rpmLeftMaster, rpmLeftSlave), rpmRightMaster, 250)) {
+		if (!Util.allCloseTo(Arrays.asList(rpmRightMaster, rpmRightSlave, rpmLeftMaster, rpmLeftSlave),
+				rpmRightMaster, 250)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!!! Drive RPMs different !!!!!!!!!!!!!!!!!!!");
 		}
-		if (failure){
+		if (failure) {
 			System.out.println("FAILED");
-		} else{
+		} else {
 			System.out.println("SUCCESS");
 		}
 		return !failure;

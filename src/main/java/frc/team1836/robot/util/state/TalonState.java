@@ -9,11 +9,11 @@ public class TalonState {
 	private double error;
 
 
-
 	private double setpoint;
 	private TalonControlMode controlMode;
 
-	public TalonState(double pos, double vel, double setpoint, double error, TalonControlMode controlMode) {
+	public TalonState(double pos, double vel, double setpoint, double error,
+			TalonControlMode controlMode) {
 		this.controlMode = controlMode;
 		this.pos = pos;
 		this.vel = vel;
@@ -25,16 +25,17 @@ public class TalonState {
 	public double getVel() {
 		return vel;
 	}
+
+	public void setVel(double vel) {
+		this.vel = vel;
+	}
+
 	public double getSetpoint() {
 		return setpoint;
 	}
 
 	public void setSetpoint(double setpoint) {
 		this.setpoint = setpoint;
-	}
-
-	public void setVel(double vel) {
-		this.vel = vel;
 	}
 
 	public double getPos() {
@@ -60,7 +61,6 @@ public class TalonState {
 	public void setControlMode(TalonControlMode controlMode) {
 		this.controlMode = controlMode;
 	}
-
 
 
 }

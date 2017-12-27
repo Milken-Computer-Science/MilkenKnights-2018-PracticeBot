@@ -13,10 +13,12 @@ public class PathFollower {
 	public PathFollower(Path mPath, double distTol, double angTol) {
 		this.mPath = mPath;
 		lFollower = new TrajectoryFollower(mPath.getLeftWheelTrajectory(), distTol, angTol);
-		lFollower.configure(Constants.DRIVE.DRIVE_FOLLOWER_P, Constants.DRIVE.DRIVE_FOLLOWER_V, Constants.DRIVE.DRIVE_FOLLOWER_A,
+		lFollower.configure(Constants.DRIVE.DRIVE_FOLLOWER_P, Constants.DRIVE.DRIVE_FOLLOWER_V,
+				Constants.DRIVE.DRIVE_FOLLOWER_A,
 				Constants.DRIVE.DRIVE_FOLLOWER_ANG);
 		rFollower = new TrajectoryFollower(mPath.getRightWheelTrajectory(), distTol, angTol);
-		rFollower.configure(Constants.DRIVE.DRIVE_FOLLOWER_P, Constants.DRIVE.DRIVE_FOLLOWER_V, Constants.DRIVE.DRIVE_FOLLOWER_A,
+		rFollower.configure(Constants.DRIVE.DRIVE_FOLLOWER_P, Constants.DRIVE.DRIVE_FOLLOWER_V,
+				Constants.DRIVE.DRIVE_FOLLOWER_A,
 				-Constants.DRIVE.DRIVE_FOLLOWER_ANG);
 	}
 

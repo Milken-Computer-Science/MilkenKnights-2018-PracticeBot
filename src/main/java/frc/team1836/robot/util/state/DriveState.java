@@ -10,7 +10,8 @@ public class DriveState {
 	DriveControlState controlState;
 	private GyroState gyroState;
 
-	public DriveState(TalonState leftState, TalonState rightState, DriveControlState controlState, GyroState gyroState) {
+	public DriveState(TalonState leftState, TalonState rightState, DriveControlState controlState,
+			GyroState gyroState) {
 		this.leftState = leftState;
 		this.rightState = rightState;
 		this.controlState = controlState;

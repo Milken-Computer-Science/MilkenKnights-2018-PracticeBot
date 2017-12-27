@@ -44,8 +44,8 @@ public class MkCANTalon extends TalonSRX {
 	}
 
 	@Override
-	public double getSpeed() {
-		return nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
+	public double getError() {
+		return nativeUnitsToInches(super.getError());
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class MkCANTalon extends TalonSRX {
 	}
 
 	@Override
-	public double getError() {
-		return nativeUnitsToInches(super.getError());
+	public double getSpeed() {
+		return nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
 	}
 
 	@Override
@@ -63,20 +63,20 @@ public class MkCANTalon extends TalonSRX {
 		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint());
 	}
 
-	private double nativeUnitsToInches(double units) {
-		return (units / Constants.DRIVE.CODES_PER_REV) * (Constants.DRIVE.CIRCUMFERENCE);
-	}
-
-	private double InchesToNativeUnits(double in) {
-		return (Constants.DRIVE.CODES_PER_REV) * (in / Constants.DRIVE.CIRCUMFERENCE);
-	}
-
 	private double nativeUnitsPer100MstoInchesPerSec(double vel) {
 		return 10 * nativeUnitsToInches(vel);
 	}
 
+	private double nativeUnitsToInches(double units) {
+		return (units / Constants.DRIVE.CODES_PER_REV) * (Constants.DRIVE.CIRCUMFERENCE);
+	}
+
 	private double InchesPerSecToUnitsPer100Ms(double vel) {
 		return InchesToNativeUnits(vel) / 10;
+	}
+
+	private double InchesToNativeUnits(double in) {
+		return (Constants.DRIVE.CODES_PER_REV) * (in / Constants.DRIVE.CIRCUMFERENCE);
 	}
 
 

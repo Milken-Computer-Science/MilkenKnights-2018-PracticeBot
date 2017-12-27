@@ -13,11 +13,14 @@ public class InputController {
 		double move = -Inputs.driverJoystick.getRawAxis(1) * reverseState;
 		double turn = Inputs.straightButton.isHeld() ? 0 : -Inputs.driverJoystick.getRawAxis(2);
 		if (Math.abs(move) > Constants.DRIVE.JOY_TOL || Math.abs(turn) > Constants.DRIVE.JOY_TOL) {
-			Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(move, turn, Inputs.cheezyButton.isHeld()));
+			Drive.getInstance()
+					.setVelocitySetpoint(DriveHelper.cheesyDrive(move, turn, Inputs.cheezyButton.isHeld()));
 		} else {
-			Drive.getInstance().setVelocitySetpoint(DriveHelper.cheesyDrive(0, 0, Inputs.cheezyButton.isHeld()));
+			Drive.getInstance()
+					.setVelocitySetpoint(DriveHelper.cheesyDrive(0, 0, Inputs.cheezyButton.isHeld()));
 		}
-		LED.getInstance().setHSV((float) Inputs.driverJoystick.getRawAxis(0), (float) Inputs.driverJoystick.getRawAxis(1));
+		LED.getInstance().setHSV((float) Inputs.driverJoystick.getRawAxis(0),
+				(float) Inputs.driverJoystick.getRawAxis(1));
 	}
 
 
