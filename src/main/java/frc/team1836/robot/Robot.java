@@ -43,17 +43,12 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		try {
 			CrashTracker.logDisabledInit();
-
 			if (mAutoModeExecuter != null) {
 				mAutoModeExecuter.stop();
 			}
 			mAutoModeExecuter = null;
-
 			mEnabledLooper.stop();
-
 			mSubsystemManager.stop();
-
-
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);
 			throw t;

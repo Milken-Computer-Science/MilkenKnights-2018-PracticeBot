@@ -223,13 +223,9 @@ public class Drive extends Subsystem {
 
 	private void updatePathFollower(double timestamp) {
 		double leftVel = mPathFollower
-				.getLeftVelocity(MkMath.nativeUnitsToInches(leftfwdtalon.getPosition()),
-						MkMath.nativeUnitsPer100MstoInchesPerSec(leftfwdtalon.getEncVelocity()),
-						navX.getYaw());
+				.getLeftVelocity(leftfwdtalon.getPosition(), leftfwdtalon.getSpeed(), navX.getYaw());
 		double rightVel = mPathFollower
-				.getRightVelocity(MkMath.nativeUnitsToInches(rightfwdtalon.getPosition()),
-						MkMath.nativeUnitsPer100MstoInchesPerSec(rightfwdtalon.getEncVelocity()),
-						-navX.getYaw());
+				.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), navX.getYaw());
 		updateVelocitySetpoint(leftVel, rightVel);
 	}
 

@@ -12,6 +12,5 @@ public class CenterAutoMode extends AutoModeBase {
 	protected void routine() throws AutoModeEndedException {
 		CenterAuthPath path = new CenterAuthPath();
 		runAction(new DrivePathAction(path.getPath()));
-		runAction(new WaitAction(15));
 	}
 }
