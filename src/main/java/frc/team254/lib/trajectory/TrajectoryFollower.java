@@ -24,7 +24,8 @@ public class TrajectoryFollower {
 	private double _DistTol;
 	private double _AngTol;
 	private int current_segment = 0;
-
+	private int last_seg = 0;
+	private boolean ranOnce = false;
 
 	public TrajectoryFollower(Trajectory profile, double distTol, double angTol) {
 		profile_ = profile;
@@ -62,19 +63,20 @@ public class TrajectoryFollower {
 			current_heading = segment.heading;
 
 			double jerk, accel, changeTime;
-			if (current_segment != 0) {
+			if (current_segment != 0 && ranOnce) {
 				changeTime = (System.nanoTime() - lastTime) * 1e-9;
-				accel = (vel - logSegments[current_segment - 1].vel) / changeTime;
-				jerk = (accel - logSegments[current_segment - 1].acc) / changeTime;
+				accel = (vel - logSegments[last_seg].vel) / changeTime;
+				jerk = (accel - logSegments[last_seg].acc) / changeTime;
 			} else {
 				changeTime = 0;
 				accel = 0;
 				jerk = 0;
 			}
-
+			last_seg = current_segment;
 			lastTime = System.nanoTime();
 			logSegments[current_segment] = new Segment(dist, vel, accel, jerk, heading,
 					changeTime, segment.x, segment.y);
+			ranOnce = true;
 
 			SmartDashboard.putNumber(side + " Desired Velocity", segment.vel);
 			SmartDashboard.putNumber(side + " Desired Position", segment.pos);

@@ -30,5 +30,6 @@ public class DrivePathAction implements Action {
 	@Override
 	public void start() {
 		Drive.getInstance().setPathFollower(mPath);
+		System.out.println("Start Path");
 	}
 }

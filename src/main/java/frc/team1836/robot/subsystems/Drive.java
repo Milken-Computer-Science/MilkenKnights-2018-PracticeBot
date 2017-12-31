@@ -32,7 +32,6 @@ public class Drive extends Subsystem {
 	private PathFollower mPathFollower;
 	private double leftSetpoint = 0.0;
 	private double rightSetpoint = 0.0;
-
 	private Drive() {
 		navX = new MkGyro(new AHRS(SPI.Port.kMXP));
 		leftfwdtalon = new MkCANTalon(Hardware.LEFT_FWD_TALON_ID, DRIVE.WHEEL_DIAMETER);
@@ -83,22 +82,22 @@ public class Drive extends Subsystem {
 
 	@Override
 	public void outputToSmartDashboard() {
-		SmartDashboard.putNumber("Left Encoder Position", leftfwdtalon.getPosition());
+		SmartDashboard.putNumber("Left Encoder Position", -leftfwdtalon.getPosition());
 		SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getPosition());
 
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
 		SmartDashboard.putNumber("Left PercentVBus",
-				leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
+				-leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
 		SmartDashboard.putNumber("Right PercentVBus",
 				rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
 
 		if (mDriveControlState == DriveControlState.PATH_FOLLOWING
 				|| mDriveControlState == DriveControlState.VELOCITY_SETPOINT) {
-			SmartDashboard.putNumber("Left Encoder Velocity", leftfwdtalon.getSpeed());
+			SmartDashboard.putNumber("Left Encoder Velocity", -leftfwdtalon.getSpeed());
 			SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
-			SmartDashboard.putNumber("Left Encoder Talon Error", leftfwdtalon.getError());
+			SmartDashboard.putNumber("Left Encoder Talon Error", -leftfwdtalon.getError());
 			SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
-			SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftSetpoint);
+			SmartDashboard.putNumber("Left Encoder Talon Setpoint", -leftSetpoint);
 			SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
 		}
 	}
@@ -128,13 +127,13 @@ public class Drive extends Subsystem {
 			public void onLoop(double timestamp) {
 
 				synchronized (Drive.this) {
-					mDebug.leftOutput = leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage();
+					mDebug.leftOutput = -leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage();
 					mDebug.rightOutput = rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage();
 					mDebug.rightPosition = rightfwdtalon.getPosition();
-					mDebug.leftPosition = leftfwdtalon.getPosition();
-					mDebug.leftVelocity = leftfwdtalon.getSpeed();
+					mDebug.leftPosition = -leftfwdtalon.getPosition();
+					mDebug.leftVelocity = -leftfwdtalon.getSpeed();
 					mDebug.rightVelocity = rightfwdtalon.getSpeed();
-					mDebug.leftSetpoint = leftfwdtalon.getSetpoint();
+					mDebug.leftSetpoint = -leftfwdtalon.getSetpoint();
 					mDebug.rightSetpoint = rightfwdtalon.getSetpoint();
 					mDebug.timestamp = timestamp;
 					mDebug.controlMode = mDriveControlState.toString();
@@ -193,7 +192,7 @@ public class Drive extends Subsystem {
 	public synchronized void setVelocitySetpoint(DriveSignal sig) {
 		configureTalonsForSpeedControl();
 		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
-		updateVelocitySetpoint(sig.getLeft() * DRIVE.LEFT_MAX_VEL, sig.getRight() * DRIVE.LEFT_MAX_VEL);
+		updateVelocitySetpoint(sig.getLeft() * DRIVE.MAX_VEL, sig.getRight() * DRIVE.MAX_VEL);
 	}
 
 	private void configureTalonsForSpeedControl() {
@@ -224,11 +223,12 @@ public class Drive extends Subsystem {
 	public void setPathFollower(Path mPath) {
 		mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL,
 				DRIVE.DRIVE_FOLLOWER_ANG_TOL);
+		mDriveControlState = DriveControlState.PATH_FOLLOWING;
 	}
 
 	private void updatePathFollower(double timestamp) {
 		double leftVel = mPathFollower
-				.getLeftVelocity(leftfwdtalon.getPosition(), leftfwdtalon.getSpeed(), navX.getYaw());
+				.getLeftVelocity(-leftfwdtalon.getPosition(), -leftfwdtalon.getSpeed(), navX.getYaw());
 		double rightVel = mPathFollower
 				.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), navX.getYaw());
 		updateVelocitySetpoint(leftVel, rightVel);

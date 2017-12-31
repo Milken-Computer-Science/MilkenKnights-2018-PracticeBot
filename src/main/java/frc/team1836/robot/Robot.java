@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
 			mSubsystemManager.registerEnabledLoops(mEnabledLooper);
 			controller = new InputController();
 			chooser.addObject("No Auto", new StandStillMode());
-			chooser.addObject("Center Auto", new CenterAutoMode());
+			chooser.addDefault("Center Auto", new CenterAutoMode());
 			SmartDashboard.putData("Auto mode", chooser);
 		} catch (Throwable t) {
 			CrashTracker.logThrowableCrash(t);

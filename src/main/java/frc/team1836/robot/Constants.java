@@ -12,8 +12,6 @@ public final class Constants {
 		public static final int RIGHT_FWD_TALON_ID = 8;
 		public static final int RIGHT_BACK_TALON_ID = 7;
 		public static final int LED_STRIP_ID = 30;
-		public static final boolean LEFT_FWD_TALON_SENSOR_REVERSE = false;
-		public static final boolean RIGHT_FWD_TALON_SENSOR_REVERSE = false;
 		public static double kLooperDt = 0.005;
 	}
 
@@ -31,18 +29,18 @@ public final class Constants {
 		public static final double WHEEL_DIAMETER = 4;
 		public static final double CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
 		public static final double RPM_MAX = 840.0;
-		public static final double LEFT_MAX_VEL = (RPM_MAX / 60) * (CIRCUMFERENCE); // Inches per second
+		public static final double MAX_VEL = (RPM_MAX / 60) * (CIRCUMFERENCE); // Inches per second
 		public static final double DRIVE_P = 1.0 * ((0.1 * 1023.0) / (300.00));
 		public static final double DRIVE_I = DRIVE_P / 100.0;
 		public static final double DRIVE_D = 15 * DRIVE_P;
 		public static final double DRIVE_F = (1023.0 / ((RPM_MAX / 60.0 / 10.0) * 4096.0));
 
-		public static final double DRIVE_FOLLOWER_P = 0;
+		public static final double DRIVE_FOLLOWER_P = 1.52;
 		public static final double DRIVE_FOLLOWER_V = 0;
 		public static final double DRIVE_FOLLOWER_A = 0;
 		public static final double DRIVE_FOLLOWER_ANG = 0;
-		public static final double DRIVE_FOLLOWER_DIST_TOL = 1.5;
-		public static final double DRIVE_FOLLOWER_ANG_TOL = 1.5;
+		public static final double DRIVE_FOLLOWER_DIST_TOL = 0.1;
+		public static final double DRIVE_FOLLOWER_ANG_TOL = 0.1;
 
 		public static final int CODES_PER_REV = 4096;
 	}
