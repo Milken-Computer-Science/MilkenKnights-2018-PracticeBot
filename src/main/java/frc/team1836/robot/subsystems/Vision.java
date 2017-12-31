@@ -27,6 +27,10 @@ public class Vision extends Subsystem {
 		SmartDashboard.putBoolean("Target Acquired ", jevoisCam.getTv());
 	}
 
+	public double getAngToTarget(){
+		return jevoisCam.getTx();
+	}
+
 	@Override
 	public void stop() {
 

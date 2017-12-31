@@ -3,15 +3,18 @@ package frc.team1836.robot.util.drivers;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import java.util.ArrayList;
 
 public class MkGyro implements PIDSource {
 
 	private final AHRS navX;
 	PIDSourceType pid_source_type = PIDSourceType.kDisplacement;
 	private double offset;
+	private ArrayList<Double[]> yawLog;
 
 	public MkGyro(final AHRS navX) {
 		this.navX = navX;
+		yawLog = new ArrayList<>();
 	}
 
 	public void zeroYaw() {
@@ -46,6 +49,17 @@ public class MkGyro implements PIDSource {
 		return navX.isMoving();
 	}
 
+	public void logYaw(double timestamp) {
+		timestamp = (customRound(timestamp));
+		yawLog.add(new Double[]{timestamp, getYaw()});
+		yawLog.remove(0);
+	}
+
+	public void getClosestYaw(double timestamp){
+		timestamp = (customRound(timestamp));
+
+	}
+
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		return pid_source_type;
@@ -59,6 +73,10 @@ public class MkGyro implements PIDSource {
 	@Override
 	public double pidGet() {
 		return navX.getYaw() + offset;
+	}
+
+	public double customRound(double num) {
+		return Math.round(num * 200) / 200.0;
 	}
 
 }

@@ -3,6 +3,7 @@ package frc.team1836.robot.util.drivers;
 
 import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
 import frc.team1836.robot.Constants;
+import frc.team1836.robot.Constants.DRIVE;
 
 /**
  * CANTalon Wrapper for either Drive Talons or Rotational Talons PID Values for rotational talons
@@ -63,6 +64,10 @@ public class MkCANTalon extends TalonSRX {
 		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint());
 	}
 
+	public double getRPM() {
+		return (super.getSpeed() * 600) / DRIVE.CODES_PER_REV;
+	}
+	
 	private double nativeUnitsPer100MstoInchesPerSec(double vel) {
 		return 10 * nativeUnitsToInches(vel);
 	}

@@ -85,17 +85,22 @@ public class Drive extends Subsystem {
 	public void outputToSmartDashboard() {
 		SmartDashboard.putNumber("Left Encoder Position", leftfwdtalon.getPosition());
 		SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getPosition());
-		SmartDashboard.putNumber("Left Encoder Velocity", leftfwdtalon.getSpeed());
-		SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
-		SmartDashboard.putNumber("Left Encoder Talon Error", leftfwdtalon.getError());
-		SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
-		SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftSetpoint);
-		SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
+
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
 		SmartDashboard.putNumber("Left PercentVBus",
 				leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
 		SmartDashboard.putNumber("Right PercentVBus",
 				rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
+
+		if (mDriveControlState == DriveControlState.PATH_FOLLOWING
+				|| mDriveControlState == DriveControlState.VELOCITY_SETPOINT) {
+			SmartDashboard.putNumber("Left Encoder Velocity", leftfwdtalon.getSpeed());
+			SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
+			SmartDashboard.putNumber("Left Encoder Talon Error", leftfwdtalon.getError());
+			SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
+			SmartDashboard.putNumber("Left Encoder Talon Setpoint", leftSetpoint);
+			SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
+		}
 	}
 
 	public void stop() {

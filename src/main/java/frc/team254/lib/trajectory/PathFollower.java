@@ -24,12 +24,13 @@ public class PathFollower {
 
 
 	public double getLeftVelocity(double dist, double vel, double angle) {
-		return lFollower.calculate(dist, vel, angle);
+		return lFollower.calculate(dist, vel, angle, "Left");
 	}
 
 	public double getRightVelocity(double dist, double vel, double angle) {
-		return rFollower.calculate(dist, vel, angle);
+		return rFollower.calculate(dist, vel, angle, "Right");
 	}
+
 
 
 	public void saveLogTrajectory() {

@@ -1,5 +1,6 @@
 package frc.team254.lib.trajectory;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team254.lib.trajectory.Trajectory.Segment;
 
 /**
@@ -46,17 +47,16 @@ public class TrajectoryFollower {
 
 
 	/*
-	 * @param gyroHeading is the gyro heading to account for angle
+	 * @param heading is the gyro heading to account for angle
 	 */
-	public double calculate(double distance_so_far, double vel, double gyroHeading) {
+	public double calculate(double dist, double vel, double heading, String side) {
 		current_segment = (int) (customRound((System.nanoTime() - Dt) * 1e-9) / 0.005);
 		if (current_segment < profile_.getNumSegments()) {
-
 			Trajectory.Segment segment = profile_.getSegment(current_segment);
-			double error = segment.pos - distance_so_far;
-			double angError = segment.heading - gyroHeading;
+			double error = segment.pos - dist;
+			double angError = segment.heading - heading;
 			double desired = (angError * kAng_) + segment.vel;
-			double output = desired + kp_ * error + kv_ * (vel - segment.vel) + ka_ * segment.acc;
+			double output = desired + kp_ * error + kv_ * (segment.vel - vel) + ka_ * segment.acc;
 			last_Ang_error = angError;
 			last_error_ = error;
 			current_heading = segment.heading;
@@ -73,8 +73,14 @@ public class TrajectoryFollower {
 			}
 
 			lastTime = System.nanoTime();
-			logSegments[current_segment] = new Segment(distance_so_far, vel, accel, jerk, gyroHeading,
+			logSegments[current_segment] = new Segment(dist, vel, accel, jerk, heading,
 					changeTime, segment.x, segment.y);
+
+			SmartDashboard.putNumber(side + " Desired Velocity", segment.vel);
+			SmartDashboard.putNumber(side + " Desired Position", segment.pos);
+			SmartDashboard.putNumber(side + " Position Error", segment.pos - dist);
+			SmartDashboard.putNumber(side + " Desired Velocity Error", segment.vel - vel);
+
 			return output;
 		} else {
 			return 0;
