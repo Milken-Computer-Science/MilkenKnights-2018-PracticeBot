@@ -2,8 +2,7 @@ package frc.team254.lib.trajectory;
 
 import frc.team1836.robot.Constants;
 import frc.team1836.robot.util.state.TrajectoryStatus;
-import frc.team254.lib.trajectory.io.LeftCSVSerializer;
-import frc.team254.lib.trajectory.io.RightCSVSerializer;
+import frc.team254.lib.trajectory.io.CSVSerializer;
 
 public class PathFollower {
 
@@ -32,12 +31,10 @@ public class PathFollower {
 
 
 	public void saveLogTrajectory() {
-		LeftCSVSerializer lserializer = new LeftCSVSerializer();
-		RightCSVSerializer rserializer = new RightCSVSerializer();
-		lserializer.writeFile(Constants.Log.LEFT_PATH_LOG_DIR,
-				lserializer.serialize(new Path(mPath.getName(), new Trajectory.Pair(lFollower.getLog(), rFollower.getLog()))));
-		rserializer.writeFile(Constants.Log.RIGHT_PATH_LOG_DIR,
-				rserializer.serialize(new Path(mPath.getName(), new Trajectory.Pair(lFollower.getLog(), rFollower.getLog()))));
+		CSVSerializer serializer = new CSVSerializer();
+		Path loggedPath = new Path(mPath.getName(), new Trajectory.Pair(lFollower.getLog(), rFollower.getLog()));
+		serializer.writeFile(Constants.Log.LEFT_PATH_LOG_DIR, serializer.serialize(loggedPath));
+		serializer.writeFile(Constants.Log.RIGHT_PATH_LOG_DIR, serializer.serializeRight(loggedPath));
 	}
 
 

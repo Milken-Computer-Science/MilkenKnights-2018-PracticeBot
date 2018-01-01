@@ -1,6 +1,5 @@
 package frc.team1836.robot.auto.paths;
 
-import frc.team1836.robot.Constants;
 import frc.team1836.robot.Constants.DRIVE;
 import frc.team254.lib.trajectory.Path;
 import frc.team254.lib.trajectory.PathGenerator;
@@ -20,8 +19,8 @@ public class CreatePath {
 		final String path_name = "AutoPath";
 		WaypointSequence p = new WaypointSequence(10);
 		for (double[] point : points) {
-			p.addWaypoint(new WaypointSequence.Waypoint(point[0], point[1], point[2]));
-			System.out.println("X: " + point[0] + " Y: " + point[1] + " Angle: " + point[2]);
+			p.addWaypoint(new WaypointSequence.Waypoint(point[0], point[1], Math.toRadians(point[2])));
+			System.out.println("X: " + point[0] + " Y: " + point[1] + " Angle: " + Math.toRadians(point[2]));
 		}
 		Path path = PathGenerator.makePath(p, config, kWheelbaseWidth, path_name);
 		System.out.println(Math.round((System.nanoTime() - ti)) * 1e-6 + " MS");

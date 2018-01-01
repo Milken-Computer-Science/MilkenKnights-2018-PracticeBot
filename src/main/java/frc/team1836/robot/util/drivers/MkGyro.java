@@ -1,20 +1,25 @@
 package frc.team1836.robot.util.drivers;
-
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import java.util.ArrayList;
-
-public class MkGyro implements PIDSource {
+import com.kauailabs.sf2.frc.navXSensor;
+import com.kauailabs.sf2.orientation.OrientationHistory;
+import com.kauailabs.sf2.orientation.Quaternion;
+import com.kauailabs.sf2.time.TimestampedValue;
+public class MkGyro {
 
 	private final AHRS navX;
-	PIDSourceType pid_source_type = PIDSourceType.kDisplacement;
 	private double offset;
-	private ArrayList<Double[]> yawLog;
-
+	OrientationHistory orientation_history;
 	public MkGyro(final AHRS navX) {
 		this.navX = navX;
-		yawLog = new ArrayList<>();
+		navXSensor navx_sensor = new navXSensor(navX, "Drivetrain Orientation");
+		orientation_history = new OrientationHistory(navx_sensor,
+				navX.getRequestedUpdateRate() * 10);
+	}
+
+	public double getYawAtTime(double elapsedTime){
+		long navx_timestamp = navX.getLastSensorTimestamp();
+		navx_timestamp -= elapsedTime * 100;
+		return orientation_history.getYawDegreesAtTime(navx_timestamp);
 	}
 
 	public void zeroYaw() {
@@ -27,6 +32,14 @@ public class MkGyro implements PIDSource {
 
 	public double getYaw() {
 		return navX.getYaw() + offset;
+	}
+
+	public double getFullYaw() {
+		if (getYaw() <= 0) {
+			return Math.abs(getYaw());
+		} else {
+			return 360 - Math.abs(getYaw());
+		}
 	}
 
 	public double getRate() {
@@ -47,36 +60,6 @@ public class MkGyro implements PIDSource {
 
 	public boolean isMoving() {
 		return navX.isMoving();
-	}
-
-	public void logYaw(double timestamp) {
-		timestamp = (customRound(timestamp));
-		yawLog.add(new Double[]{timestamp, getYaw()});
-		yawLog.remove(0);
-	}
-
-	public void getClosestYaw(double timestamp){
-		timestamp = (customRound(timestamp));
-
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return pid_source_type;
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType type) {
-		pid_source_type = type;
-	}
-
-	@Override
-	public double pidGet() {
-		return navX.getYaw() + offset;
-	}
-
-	public double customRound(double num) {
-		return Math.round(num * 200) / 200.0;
 	}
 
 }

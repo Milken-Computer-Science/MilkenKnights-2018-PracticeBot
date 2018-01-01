@@ -8,7 +8,6 @@ public class TrajectoryStatus {
 	private double output;
 
 	private Segment seg;
-	private double pos;
 	private double posError;
 	private double velError;
 	private double angError;

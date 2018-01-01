@@ -14,21 +14,20 @@ import java.io.IOException;
  *
  * @author Jared341
  */
-public class LeftCSVSerializer implements IPathSerializer {
+public class CSVSerializer implements IPathSerializer {
 
-	/**
-	 * Format: PathName NumSegments LeftSegment1 ... LeftSegmentN RightSegment1 ... RightSegmentN
-	 *
-	 * Each segment is in the format: pos vel acc jerk heading dt x y
-	 *
-	 * @param path The path to serialize.
-	 * @return A string representation.
-	 */
-	@Override
+
 	public String serialize(Path path) {
 		path.goLeft();
 		String content = "Position,Velocity,Acceleration,Jerk,Heading,DeltaTime,X,Y\n";
 		content += serializeTrajectory(path.getLeftWheelTrajectory());
+		return content;
+	}
+
+	public String serializeRight(Path path) {
+		path.goLeft();
+		String content = "Position,Velocity,Acceleration,Jerk,Heading,DeltaTime,X,Y\n";
+		content += serializeTrajectory(path.getRightWheelTrajectory());
 		return content;
 	}
 
@@ -37,9 +36,8 @@ public class LeftCSVSerializer implements IPathSerializer {
 		for (int i = 0; i < trajectory.getNumSegments(); ++i) {
 			Segment segment = trajectory.getSegment(i);
 			content += String
-					.format("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n", segment.pos, segment.vel,
-							segment.acc,
-							segment.jerk, segment.heading, segment.dt * i, segment.x, segment.y);
+					.format("%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n", segment.pos, segment.vel, segment.acc, segment.jerk, segment.heading, segment.dt * i, segment.x,
+							segment.y);
 		}
 		return content;
 	}

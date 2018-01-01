@@ -20,6 +20,7 @@ import frc.team1836.robot.util.state.DriveSignal;
 import frc.team1836.robot.util.state.TrajectoryStatus;
 import frc.team254.lib.trajectory.Path;
 import frc.team254.lib.trajectory.PathFollower;
+import frc.team254.lib.trajectory.Trajectory.Segment;
 import java.util.Arrays;
 
 public class Drive extends Subsystem {
@@ -68,6 +69,8 @@ public class Drive extends Subsystem {
 		mDebug.leftPosition = 0;
 		mDebug.rightVelocity = 0;
 		mDebug.leftVelocity = 0;
+		leftStatus = new TrajectoryStatus(new Segment(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0, 0);
+		rightStatus = new TrajectoryStatus(new Segment(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0, 0);
 	}
 
 	public static Drive getInstance() {
@@ -88,7 +91,7 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Left Encoder Position", -leftfwdtalon.getPosition());
 		SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getPosition());
 
-		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
+		SmartDashboard.putNumber("NavX Yaw", navX.getFullYaw());
 		SmartDashboard.putNumber("Left PercentVBus", -leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
 		SmartDashboard.putNumber("Right PercentVBus", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
 
@@ -101,17 +104,17 @@ public class Drive extends Subsystem {
 			SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
 		}
 		if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
+			SmartDashboard.putNumber("Left Desired Velocity", MkMath.normalAbsoluteAngleDegrees(leftStatus.getSeg().heading));
 			SmartDashboard.putNumber("Left Desired Velocity", leftStatus.getSeg().vel);
 			SmartDashboard.putNumber("Left Desired Position", leftStatus.getSeg().pos);
 			SmartDashboard.putNumber("Left Position Error", leftStatus.getPosError());
 			SmartDashboard.putNumber("Left Desired Velocity Error", leftStatus.getVelError());
-			SmartDashboard.putNumber("Left Heading Error", leftStatus.getAngError());
+			SmartDashboard.putNumber("Heading Error", leftStatus.getAngError());
 
 			SmartDashboard.putNumber("Right Desired Velocity", leftStatus.getSeg().vel);
 			SmartDashboard.putNumber("Right Desired Position", leftStatus.getSeg().pos);
 			SmartDashboard.putNumber("Right Position Error", leftStatus.getPosError());
 			SmartDashboard.putNumber("Right Desired Velocity Error", leftStatus.getVelError());
-			SmartDashboard.putNumber("Right Heading Error", leftStatus.getAngError());
 		}
 	}
 
@@ -150,17 +153,35 @@ public class Drive extends Subsystem {
 					mDebug.rightSetpoint = rightfwdtalon.getSetpoint();
 					mDebug.timestamp = timestamp;
 					mDebug.controlMode = mDriveControlState.toString();
-					mDebug.leftDesiredPos = 0;
-					mDebug.leftDesiredVel = 0;
-					mDebug.rightDesiredPos = 0;
-					mDebug.rightDesiredVel = 0;
-					mDebug.desiredHeading = 0;
-					mDebug.headingError = 0;
-					mCSVWriter.add(mDebug);
+					mDebug.heading = navX.getFullYaw();
 					switch (mDriveControlState) {
 						case OPEN_LOOP:
+							mDebug.leftDesiredPos = 0;
+							mDebug.leftDesiredVel = 0;
+							mDebug.rightDesiredPos = 0;
+							mDebug.rightDesiredVel = 0;
+							mDebug.desiredHeading = 0;
+							mDebug.headingError = 0;
+							mDebug.leftVelError = 0;
+							mDebug.leftPosError = 0;
+							mDebug.rightVelError = 0;
+							mDebug.rightPosError = 0;
+							mDebug.desiredX = 0;
+							mDebug.desiredY = 0;
 							return;
 						case VELOCITY_SETPOINT:
+							mDebug.leftDesiredPos = 0;
+							mDebug.leftDesiredVel = 0;
+							mDebug.rightDesiredPos = 0;
+							mDebug.rightDesiredVel = 0;
+							mDebug.desiredHeading = 0;
+							mDebug.headingError = 0;
+							mDebug.leftVelError = 0;
+							mDebug.leftPosError = 0;
+							mDebug.rightVelError = 0;
+							mDebug.rightPosError = 0;
+							mDebug.desiredX = 0;
+							mDebug.desiredY = 0;
 							return;
 						case PATH_FOLLOWING:
 							updatePathFollower(timestamp);
@@ -170,11 +191,18 @@ public class Drive extends Subsystem {
 							mDebug.rightDesiredVel = rightStatus.getSeg().vel;
 							mDebug.desiredHeading = leftStatus.getSeg().heading;
 							mDebug.headingError = leftStatus.getAngError();
+							mDebug.leftVelError = leftStatus.getVelError();
+							mDebug.leftPosError = leftStatus.getPosError();
+							mDebug.rightVelError = rightStatus.getVelError();
+							mDebug.rightPosError = rightStatus.getPosError();
+							mDebug.desiredX = (leftStatus.getSeg().x + rightStatus.getSeg().x) / 2;
+							mDebug.desiredY = (leftStatus.getSeg().y + rightStatus.getSeg().y) / 2;
 							return;
 						default:
 							System.out.println("Unexpected drive control state: " + mDriveControlState);
 							break;
 					}
+					mCSVWriter.add(mDebug);
 				}
 
 			}
@@ -249,8 +277,8 @@ public class Drive extends Subsystem {
 	}
 
 	private void updatePathFollower(double timestamp) {
-		TrajectoryStatus leftUpdate = mPathFollower.getLeftVelocity(-leftfwdtalon.getPosition(), -leftfwdtalon.getSpeed(), navX.getYaw());
-		TrajectoryStatus rightUpdate = mPathFollower.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), navX.getYaw());
+		TrajectoryStatus leftUpdate = mPathFollower.getLeftVelocity(-leftfwdtalon.getPosition(), -leftfwdtalon.getSpeed(), Math.toRadians(navX.getFullYaw()));
+		TrajectoryStatus rightUpdate = mPathFollower.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), Math.toRadians(navX.getFullYaw()));
 		updateVelocitySetpoint(leftUpdate.getOutput(), rightUpdate.getOutput());
 		leftStatus = leftUpdate;
 		rightStatus = rightUpdate;
@@ -391,7 +419,13 @@ public class Drive extends Subsystem {
 		public double headingError;
 		public double leftDesiredVel;
 		public double leftDesiredPos;
+		public double leftPosError;
+		public double leftVelError;
 		public double rightDesiredVel;
 		public double rightDesiredPos;
+		public double rightPosError;
+		public double rightVelError;
+		public double desiredX;
+		public double desiredY;
 	}
 }

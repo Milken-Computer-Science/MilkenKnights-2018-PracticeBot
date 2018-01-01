@@ -24,7 +24,7 @@ public class DrivePathAction implements Action {
 
 	@Override
 	public void done() {
-		Drive.getInstance().logPath();
+		System.out.println("Finished Path");
 	}
 
 	@Override

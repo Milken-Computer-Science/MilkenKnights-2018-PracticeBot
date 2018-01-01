@@ -32,6 +32,7 @@ dependencies {
     compile zipTree('libs/phoenix.zip').matching { it.include('java/lib/CTRE_Phoenix.jar') }
     nativeLib zipTree('libs/phoenix.zip').matching { it.include('java/lib/libCTRE_PhoenixCCI.so') }
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    compile fileTree(dir: 'libs/jars', include: '**/*.jar')
 }
 
 jar {

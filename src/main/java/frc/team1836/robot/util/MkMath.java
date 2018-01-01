@@ -19,4 +19,8 @@ public class MkMath {
 	public static double InchesToNativeUnits(double in) {
 		return (Constants.DRIVE.CODES_PER_REV) * (in / Constants.DRIVE.CIRCUMFERENCE);
 	}
+
+	public static double normalAbsoluteAngleDegrees(double angle) {
+		return (angle %= 360) >= 0 ? angle : (angle + 360);
+	}
 }

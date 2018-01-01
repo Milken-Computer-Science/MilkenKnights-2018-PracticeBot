@@ -1,5 +1,6 @@
 package frc.team254.lib.trajectory;
 
+import frc.team1836.robot.util.MkMath;
 import frc.team1836.robot.util.state.TrajectoryStatus;
 import frc.team254.lib.trajectory.Trajectory.Segment;
 
@@ -77,7 +78,7 @@ public class TrajectoryFollower {
 			logSegments[current_segment] = new Segment(dist, vel, accel, jerk, heading, changeTime, segment.x, segment.y);
 			ranOnce = true;
 
-			return new TrajectoryStatus(segment, error, segment.vel - vel, angError, output);
+			return new TrajectoryStatus(segment, error, segment.vel - vel, MkMath.normalAbsoluteAngleDegrees(Math.toDegrees(angError)), output);
 		} else {
 			return new TrajectoryStatus(new Segment(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0, 0);
 		}
@@ -100,6 +101,11 @@ public class TrajectoryFollower {
 	}
 
 	public Trajectory getLog() {
+		for (int i = 0; i < logSegments.length; i++) {
+			if (logSegments[i] == null) {
+				logSegments[i] = new Segment(0, 0, 0, 0, 0, 0, 0, 0);
+			}
+		}
 		return new Trajectory(logSegments);
 	}
 
