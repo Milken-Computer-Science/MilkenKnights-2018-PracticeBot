@@ -1,6 +1,6 @@
 package frc.team254.lib.trajectory;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1836.robot.util.state.TrajectoryStatus;
 import frc.team254.lib.trajectory.Trajectory.Segment;
 
 /**
@@ -50,7 +50,7 @@ public class TrajectoryFollower {
 	/*
 	 * @param heading is the gyro heading to account for angle
 	 */
-	public double calculate(double dist, double vel, double heading, String side) {
+	public TrajectoryStatus calculate(double dist, double vel, double heading) {
 		current_segment = (int) (customRound((System.nanoTime() - Dt) * 1e-9) / 0.005);
 		if (current_segment < profile_.getNumSegments()) {
 			Trajectory.Segment segment = profile_.getSegment(current_segment);
@@ -74,18 +74,12 @@ public class TrajectoryFollower {
 			}
 			last_seg = current_segment;
 			lastTime = System.nanoTime();
-			logSegments[current_segment] = new Segment(dist, vel, accel, jerk, heading,
-					changeTime, segment.x, segment.y);
+			logSegments[current_segment] = new Segment(dist, vel, accel, jerk, heading, changeTime, segment.x, segment.y);
 			ranOnce = true;
 
-			SmartDashboard.putNumber(side + " Desired Velocity", segment.vel);
-			SmartDashboard.putNumber(side + " Desired Position", segment.pos);
-			SmartDashboard.putNumber(side + " Position Error", segment.pos - dist);
-			SmartDashboard.putNumber(side + " Desired Velocity Error", segment.vel - vel);
-
-			return output;
+			return new TrajectoryStatus(segment, error, segment.vel - vel, angError, output);
 		} else {
-			return 0;
+			return new TrajectoryStatus(new Segment(0, 0, 0, 0, 0, 0, 0, 0), 0, 0, 0, 0);
 		}
 	}
 

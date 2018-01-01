@@ -17,6 +17,7 @@ import frc.team1836.robot.util.logging.ReflectingCSVWriter;
 import frc.team1836.robot.util.loops.Loop;
 import frc.team1836.robot.util.loops.Looper;
 import frc.team1836.robot.util.state.DriveSignal;
+import frc.team1836.robot.util.state.TrajectoryStatus;
 import frc.team254.lib.trajectory.Path;
 import frc.team254.lib.trajectory.PathFollower;
 import java.util.Arrays;
@@ -32,6 +33,9 @@ public class Drive extends Subsystem {
 	private PathFollower mPathFollower;
 	private double leftSetpoint = 0.0;
 	private double rightSetpoint = 0.0;
+	private TrajectoryStatus leftStatus;
+	private TrajectoryStatus rightStatus;
+
 	private Drive() {
 		navX = new MkGyro(new AHRS(SPI.Port.kMXP));
 		leftfwdtalon = new MkCANTalon(Hardware.LEFT_FWD_TALON_ID, DRIVE.WHEEL_DIAMETER);
@@ -71,8 +75,7 @@ public class Drive extends Subsystem {
 	}
 
 	private static boolean usesTalonVelocityControl(DriveControlState state) {
-		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state
-				== DriveControlState.PATH_FOLLOWING));
+		return ((state == DriveControlState.VELOCITY_SETPOINT) || (state == DriveControlState.PATH_FOLLOWING));
 	}
 
 	@Override
@@ -86,19 +89,29 @@ public class Drive extends Subsystem {
 		SmartDashboard.putNumber("Right Encoder Position", rightfwdtalon.getPosition());
 
 		SmartDashboard.putNumber("NavX Yaw", navX.getYaw());
-		SmartDashboard.putNumber("Left PercentVBus",
-				-leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
-		SmartDashboard.putNumber("Right PercentVBus",
-				rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
+		SmartDashboard.putNumber("Left PercentVBus", -leftfwdtalon.getOutputVoltage() / leftfwdtalon.getBusVoltage());
+		SmartDashboard.putNumber("Right PercentVBus", rightfwdtalon.getOutputVoltage() / rightfwdtalon.getBusVoltage());
 
-		if (mDriveControlState == DriveControlState.PATH_FOLLOWING
-				|| mDriveControlState == DriveControlState.VELOCITY_SETPOINT) {
+		if (mDriveControlState == DriveControlState.PATH_FOLLOWING || mDriveControlState == DriveControlState.VELOCITY_SETPOINT) {
 			SmartDashboard.putNumber("Left Encoder Velocity", -leftfwdtalon.getSpeed());
 			SmartDashboard.putNumber("Right Encoder Velocity", rightfwdtalon.getSpeed());
 			SmartDashboard.putNumber("Left Encoder Talon Error", -leftfwdtalon.getError());
 			SmartDashboard.putNumber("Right Encoder Talon Error", rightfwdtalon.getError());
 			SmartDashboard.putNumber("Left Encoder Talon Setpoint", -leftSetpoint);
 			SmartDashboard.putNumber("Right Encoder Talon Setpoint", rightSetpoint);
+		}
+		if (mDriveControlState == DriveControlState.PATH_FOLLOWING) {
+			SmartDashboard.putNumber("Left Desired Velocity", leftStatus.getSeg().vel);
+			SmartDashboard.putNumber("Left Desired Position", leftStatus.getSeg().pos);
+			SmartDashboard.putNumber("Left Position Error", leftStatus.getPosError());
+			SmartDashboard.putNumber("Left Desired Velocity Error", leftStatus.getVelError());
+			SmartDashboard.putNumber("Left Heading Error", leftStatus.getAngError());
+
+			SmartDashboard.putNumber("Right Desired Velocity", leftStatus.getSeg().vel);
+			SmartDashboard.putNumber("Right Desired Position", leftStatus.getSeg().pos);
+			SmartDashboard.putNumber("Right Position Error", leftStatus.getPosError());
+			SmartDashboard.putNumber("Right Desired Velocity Error", leftStatus.getVelError());
+			SmartDashboard.putNumber("Right Heading Error", leftStatus.getAngError());
 		}
 	}
 
@@ -133,10 +146,16 @@ public class Drive extends Subsystem {
 					mDebug.leftPosition = -leftfwdtalon.getPosition();
 					mDebug.leftVelocity = -leftfwdtalon.getSpeed();
 					mDebug.rightVelocity = rightfwdtalon.getSpeed();
-					mDebug.leftSetpoint = -leftfwdtalon.getSetpoint();
+					mDebug.leftSetpoint = leftfwdtalon.getSetpoint();
 					mDebug.rightSetpoint = rightfwdtalon.getSetpoint();
 					mDebug.timestamp = timestamp;
 					mDebug.controlMode = mDriveControlState.toString();
+					mDebug.leftDesiredPos = 0;
+					mDebug.leftDesiredVel = 0;
+					mDebug.rightDesiredPos = 0;
+					mDebug.rightDesiredVel = 0;
+					mDebug.desiredHeading = 0;
+					mDebug.headingError = 0;
 					mCSVWriter.add(mDebug);
 					switch (mDriveControlState) {
 						case OPEN_LOOP:
@@ -145,6 +164,12 @@ public class Drive extends Subsystem {
 							return;
 						case PATH_FOLLOWING:
 							updatePathFollower(timestamp);
+							mDebug.leftDesiredPos = leftStatus.getSeg().pos;
+							mDebug.leftDesiredVel = leftStatus.getSeg().vel;
+							mDebug.rightDesiredPos = rightStatus.getSeg().pos;
+							mDebug.rightDesiredVel = rightStatus.getSeg().vel;
+							mDebug.desiredHeading = leftStatus.getSeg().heading;
+							mDebug.headingError = leftStatus.getAngError();
 							return;
 						default:
 							System.out.println("Unexpected drive control state: " + mDriveControlState);
@@ -173,8 +198,7 @@ public class Drive extends Subsystem {
 		rightfwdtalon.set(signal.getRight());
 	}
 
-	private synchronized void setVelocitySetpoint(double left_inches_per_sec,
-			double right_inches_per_sec) {
+	private synchronized void setVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		configureTalonsForSpeedControl();
 		mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
 		updateVelocitySetpoint(left_inches_per_sec, right_inches_per_sec);
@@ -202,8 +226,7 @@ public class Drive extends Subsystem {
 		}
 	}
 
-	private synchronized void updateVelocitySetpoint(double left_inches_per_sec,
-			double right_inches_per_sec) {
+	private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
 		if (usesTalonVelocityControl(mDriveControlState)) {
 			leftfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(left_inches_per_sec));
 			rightfwdtalon.set(MkMath.InchesPerSecToUnitsPer100Ms(right_inches_per_sec));
@@ -221,17 +244,16 @@ public class Drive extends Subsystem {
 	}
 
 	public void setPathFollower(Path mPath) {
-		mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL,
-				DRIVE.DRIVE_FOLLOWER_ANG_TOL);
+		mPathFollower = new PathFollower(mPath, DRIVE.DRIVE_FOLLOWER_DIST_TOL, DRIVE.DRIVE_FOLLOWER_ANG_TOL);
 		mDriveControlState = DriveControlState.PATH_FOLLOWING;
 	}
 
 	private void updatePathFollower(double timestamp) {
-		double leftVel = mPathFollower
-				.getLeftVelocity(-leftfwdtalon.getPosition(), -leftfwdtalon.getSpeed(), navX.getYaw());
-		double rightVel = mPathFollower
-				.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), navX.getYaw());
-		updateVelocitySetpoint(leftVel, rightVel);
+		TrajectoryStatus leftUpdate = mPathFollower.getLeftVelocity(-leftfwdtalon.getPosition(), -leftfwdtalon.getSpeed(), navX.getYaw());
+		TrajectoryStatus rightUpdate = mPathFollower.getRightVelocity(rightfwdtalon.getPosition(), rightfwdtalon.getSpeed(), navX.getYaw());
+		updateVelocitySetpoint(leftUpdate.getOutput(), rightUpdate.getOutput());
+		leftStatus = leftUpdate;
+		rightStatus = rightUpdate;
 	}
 
 	public boolean checkSystem() {
@@ -288,15 +310,9 @@ public class Drive extends Subsystem {
 		leftbacktalon.changeControlMode(TalonControlMode.Follower);
 		leftbacktalon.set(Hardware.LEFT_FWD_TALON_ID);
 
-		System.out.println(
-				"Drive Right Master Current: " + currentRightMaster + " Drive Right Slave Current: "
-						+ currentRightSlave);
-		System.out.println(
-				"Drive Left Master Current: " + currentLeftMaster + " Drive Left Slave Current: "
-						+ currentLeftSlave);
-		System.out.println(
-				"Drive RPM RMaster: " + rpmRightMaster + " RSlave: " + rpmRightSlave + " LMaster: "
-						+ rpmLeftMaster + " LSlave: " + rpmLeftSlave);
+		System.out.println("Drive Right Master Current: " + currentRightMaster + " Drive Right Slave Current: " + currentRightSlave);
+		System.out.println("Drive Left Master Current: " + currentLeftMaster + " Drive Left Slave Current: " + currentLeftSlave);
+		System.out.println("Drive RPM RMaster: " + rpmRightMaster + " RSlave: " + rpmRightSlave + " LMaster: " + rpmLeftMaster + " LSlave: " + rpmLeftSlave);
 
 		boolean failure = false;
 
@@ -320,14 +336,12 @@ public class Drive extends Subsystem {
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Slave Current Low !!!!!!!!!!");
 		}
 
-		if (!Util.allCloseTo(Arrays.asList(currentRightMaster, currentRightSlave), currentRightMaster,
-				5.0)) {
+		if (!Util.allCloseTo(Arrays.asList(currentRightMaster, currentRightSlave), currentRightMaster, 5.0)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Right Currents Different !!!!!!!!!!");
 		}
 
-		if (!Util
-				.allCloseTo(Arrays.asList(currentLeftMaster, currentLeftSlave), currentLeftSlave, 5.0)) {
+		if (!Util.allCloseTo(Arrays.asList(currentLeftMaster, currentLeftSlave), currentLeftSlave, 5.0)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Currents Different !!!!!!!!!!!!!");
 		}
@@ -342,8 +356,7 @@ public class Drive extends Subsystem {
 			System.out.println("!!!!!!!!!!!!!!!!!! Drive Left Master RPM Low !!!!!!!!!!!!!!!!!!!");
 		}
 
-		if (!Util.allCloseTo(Arrays.asList(rpmRightMaster, rpmRightSlave, rpmLeftMaster, rpmLeftSlave),
-				rpmRightMaster, 250)) {
+		if (!Util.allCloseTo(Arrays.asList(rpmRightMaster, rpmRightSlave, rpmLeftMaster, rpmLeftSlave), rpmRightMaster, 250)) {
 			failure = true;
 			System.out.println("!!!!!!!!!!!!!!!!!!! Drive RPMs different !!!!!!!!!!!!!!!!!!!");
 		}
@@ -373,5 +386,12 @@ public class Drive extends Subsystem {
 		public double rightPosition;
 		public double leftVelocity;
 		public double rightVelocity;
+		public double heading;
+		public double desiredHeading;
+		public double headingError;
+		public double leftDesiredVel;
+		public double leftDesiredPos;
+		public double rightDesiredVel;
+		public double rightDesiredPos;
 	}
 }
