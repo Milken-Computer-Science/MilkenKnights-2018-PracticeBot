@@ -3,6 +3,7 @@ plugins {
     id "eclipse"
     id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2017.11.17"
+    id 'org.hidetake.ssh' version '2.9.0'
 }
 
 def TEAM = 1836
@@ -25,6 +26,26 @@ repositories {
     mavenCentral()
 }
 
+remotes {
+    webServer {
+        host = 'roborio-1836-frc.local'
+        user = 'admin'
+    }
+}
+
+task deployCode {
+    dependsOn: deploy
+    doFirst {
+        ssh.run {
+            session(remotes.webServer) {
+                get from: '/home/lvuser', into: buildDir + '/logs/'+ date.format('yyyyMMddHHmmss'), filter: { it.name =~ /\.csv$/ }
+            }
+        }
+    }
+    doLast{
+
+    }
+}
 
 dependencies {
     compile wpilib()
