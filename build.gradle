@@ -33,20 +33,6 @@ remotes {
     }
 }
 
-task deployCode {
-    dependsOn: deploy
-    doFirst {
-        ssh.run {
-            session(remotes.webServer) {
-                get from: '/home/lvuser', into: buildDir + '/logs/'+ date.format('yyyyMMddHHmmss'), filter: { it.name =~ /\.csv$/ }
-            }
-        }
-    }
-    doLast{
-
-    }
-}
-
 dependencies {
     compile wpilib()
     compile navx()
