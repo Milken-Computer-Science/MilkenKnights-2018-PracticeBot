@@ -2,7 +2,6 @@ package frc.team254.lib.trajectory;
 
 import frc.team1836.robot.Constants;
 import frc.team1836.robot.util.state.TrajectoryStatus;
-import frc.team254.lib.trajectory.io.CSVSerializer;
 
 public class PathFollower {
 
@@ -28,15 +27,6 @@ public class PathFollower {
 	public TrajectoryStatus getRightVelocity(double dist, double vel, double angle) {
 		return rFollower.calculate(dist, vel, angle);
 	}
-
-
-	public void saveLogTrajectory() {
-		CSVSerializer serializer = new CSVSerializer();
-		Path loggedPath = new Path(mPath.getName(), new Trajectory.Pair(lFollower.getLog(), rFollower.getLog()));
-		serializer.writeFile(Constants.Log.LEFT_PATH_LOG_DIR, serializer.serialize(loggedPath));
-		serializer.writeFile(Constants.Log.RIGHT_PATH_LOG_DIR, serializer.serializeRight(loggedPath));
-	}
-
 
 	public boolean getFinished() {
 		return lFollower.isFinishedTrajectory() && rFollower.isFinishedTrajectory();

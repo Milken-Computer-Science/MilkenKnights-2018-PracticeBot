@@ -100,13 +100,4 @@ public class TrajectoryFollower {
 		return last_error_ < _DistTol && last_Ang_error < _AngTol;
 	}
 
-	public Trajectory getLog() {
-		for (int i = 0; i < logSegments.length; i++) {
-			if (logSegments[i] == null) {
-				logSegments[i] = new Segment(0, 0, 0, 0, 0, 0, 0, 0);
-			}
-		}
-		return new Trajectory(logSegments);
-	}
-
 }

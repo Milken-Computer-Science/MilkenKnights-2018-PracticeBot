@@ -12,11 +12,16 @@ import frc.team1836.robot.Constants.DRIVE;
 public class MkCANTalon extends TalonSRX {
 
 	private final int codesPerRev = Constants.DRIVE.CODES_PER_REV;
+	private int reverse = 1;
 
-	public MkCANTalon(int deviceNumber, double wheelDiameter) {
+	public MkCANTalon(int deviceNumber) {
 		super(deviceNumber);
 		resetConfig();
 		configEncoderCodesPerRev(codesPerRev);
+	}
+
+	public void reverseSensor() {
+		reverse = -reverse;
 	}
 
 	private void resetConfig() {
@@ -37,6 +42,7 @@ public class MkCANTalon extends TalonSRX {
 		reverseSensor(false);
 		setPosition(0);
 		setProfile(0);
+		reverse = 1;
 	}
 
 	@Override
@@ -46,17 +52,17 @@ public class MkCANTalon extends TalonSRX {
 
 	@Override
 	public double getError() {
-		return nativeUnitsToInches(super.getError());
+		return reverse * nativeUnitsToInches(super.getError());
 	}
 
 	@Override
 	public double getPosition() {
-		return nativeUnitsToInches(super.getPosition());
+		return reverse * nativeUnitsToInches(super.getPosition());
 	}
 
 	@Override
 	public double getSpeed() {
-		return nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
+		return reverse * nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
 	}
 
 	@Override
@@ -65,9 +71,13 @@ public class MkCANTalon extends TalonSRX {
 	}
 
 	public double getRPM() {
-		return (super.getSpeed() * 600) / DRIVE.CODES_PER_REV;
+		return reverse * (super.getSpeed() * 600) / DRIVE.CODES_PER_REV;
 	}
-	
+
+	public double getOutputVoltage() {
+		return reverse * super.getOutputCurrent();
+	}
+
 	private double nativeUnitsPer100MstoInchesPerSec(double vel) {
 		return 10 * nativeUnitsToInches(vel);
 	}
