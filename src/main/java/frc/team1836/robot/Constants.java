@@ -1,5 +1,7 @@
 package frc.team1836.robot;
 
+import frc.team1836.robot.util.state.Button;
+
 /**
  * Stores all Hard-coded numbers subject to change
  */
@@ -18,9 +20,11 @@ public final class Constants {
 	public static class Input {
 
 		public static final int DRIVE_STICK = 0;
-		public static final int REVERSE_BUTTON = 1;
-		public static final int SLOW_BUTTON = 2;
-		public static final int STRAIGHT_BUTTON = 3;
+		public static final Button[] buttonList = {
+				new Button("Reverse Button", 1),
+				new Button("Slow Button", 2),
+				new Button("Straight Button", 3),
+		};
 	}
 
 	public static class DRIVE {
@@ -50,5 +54,6 @@ public final class Constants {
 		public static final String LEFT_PATH_LOG_DIR = "/home/lvuser/LEFT_PATH_LOG.csv";
 		public static final String RIGHT_PATH_LOG_DIR = "/home/lvuser/RIGHT_PATH_LOG.csv";
 	}
+
 
 }

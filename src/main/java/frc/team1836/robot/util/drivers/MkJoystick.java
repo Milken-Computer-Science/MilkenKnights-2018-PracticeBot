@@ -22,9 +22,9 @@ public class MkJoystick extends Joystick {
 	 * @param button The raw button number of the button to get
 	 * @return The button
 	 */
-	public MkButton getButton(final int button) {
+	public MkButton getButton(final int button, final String name) {
 		if (!buttons.containsKey(button)) {
-			buttons.put(button, new MkButton(this, button));
+			buttons.put(button, new MkButton(this, button, name));
 		}
 		return buttons.get(button);
 	}

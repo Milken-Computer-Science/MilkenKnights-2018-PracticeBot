@@ -7,10 +7,12 @@ public class MkButton {
 	private final MkJoystick joystick;
 	private final int rawButton;
 	private boolean lastState;
+	private final String buttonName;
 
-	public MkButton(final MkJoystick joystick, final int rawButton) {
+	public MkButton(final MkJoystick joystick, final int rawButton, final String buttonName) {
 		this.joystick = joystick;
 		this.rawButton = rawButton;
+		this.buttonName = buttonName;
 	}
 
 	/**
