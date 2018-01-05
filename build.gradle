@@ -2,8 +2,7 @@ plugins {
     id "java"
     id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2017.11.17"
-    id 'org.hidetake.ssh' version '2.9.0'
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.06"
 }
 
 def TEAM = 1836
@@ -26,18 +25,10 @@ repositories {
     mavenCentral()
 }
 
-remotes {
-    webServer {
-        host = 'roborio-1836-frc.local'
-        user = 'admin'
-    }
-}
-
 dependencies {
     compile wpilib()
     compile navx()
-    compile zipTree('libs/phoenix.zip').matching { it.include('java/lib/CTRE_Phoenix.jar') }
-    nativeLib zipTree('libs/phoenix.zip').matching { it.include('java/lib/libCTRE_PhoenixCCI.so') }
+    compile ctre()
     compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     compile fileTree(dir: 'libs/jars', include: '**/*.jar')
 }

@@ -1,7 +1,7 @@
 package frc.team1836.robot.util.drivers;
 
-
-import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.team1836.robot.Constants;
 import frc.team1836.robot.Constants.DRIVE;
 
@@ -11,72 +11,46 @@ import frc.team1836.robot.Constants.DRIVE;
  */
 public class MkCANTalon extends TalonSRX {
 
-	private final int codesPerRev = Constants.DRIVE.CODES_PER_REV;
-	private int reverse = 1;
-
 	public MkCANTalon(int deviceNumber) {
 		super(deviceNumber);
 		resetConfig();
-		configEncoderCodesPerRev(codesPerRev);
-	}
-
-	public void reverseSensor() {
-		reverse = -reverse;
 	}
 
 	private void resetConfig() {
-		changeControlMode(TalonControlMode.PercentVbus);
-		clearIAccum();
-		ClearIaccum();
-		clearMotionProfileHasUnderrun();
+		clearMotionProfileHasUnderrun(10);
 		clearMotionProfileTrajectories();
-		clearStickyFaults();
-		configMaxOutputVoltage(12);
-		configNominalOutputVoltage(0, -0);
-		configPeakOutputVoltage(12, -12);
-		enableBrakeMode(false);
-		enableZeroSensorPositionOnForwardLimit(false);
-		enableZeroSensorPositionOnIndex(false, false);
-		enableZeroSensorPositionOnReverseLimit(false);
-		reverseOutput(false);
-		reverseSensor(false);
-		setPosition(0);
-		setProfile(0);
-		reverse = 1;
+		clearStickyFaults(10);
+		setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 5, 10);
+		configPeakOutputForward(100, 10);
+		configPeakOutputReverse(-100, 10);
+		configNominalOutputForward(0, 10);
+		configNominalOutputReverse(-0, 10);
 	}
 
-	@Override
-	public void set(double val) {
-		super.set(val);
-	}
 
-	@Override
 	public double getError() {
-		return reverse * nativeUnitsToInches(super.getError());
+		return nativeUnitsToInches(super.getErrorDerivative(0));
 	}
 
-	@Override
+
 	public double getPosition() {
-		return reverse * nativeUnitsToInches(super.getPosition());
+		return nativeUnitsToInches(super.getSelectedSensorPosition(0));
 	}
 
-	@Override
+
 	public double getSpeed() {
-		return reverse * nativeUnitsPer100MstoInchesPerSec(super.getSpeed());
+		return nativeUnitsPer100MstoInchesPerSec(super.getSelectedSensorVelocity(10));
 	}
 
-	@Override
+
 	public double getSetpoint() {
 		return nativeUnitsPer100MstoInchesPerSec(super.getSetpoint());
 	}
 
 	public double getRPM() {
-		return reverse * (super.getSpeed() * 600) / DRIVE.CODES_PER_REV;
+		return (super.getSelectedSensorVelocity(10) * 600) / DRIVE.CODES_PER_REV;
 	}
 
-	public double getOutputVoltage() {
-		return reverse * super.getOutputCurrent();
-	}
 
 	private double nativeUnitsPer100MstoInchesPerSec(double vel) {
 		return 10 * nativeUnitsToInches(vel);

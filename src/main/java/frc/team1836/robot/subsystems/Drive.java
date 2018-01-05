@@ -3,8 +3,7 @@ package frc.team1836.robot.subsystems;
 import static frc.team1836.robot.Constants.DRIVE;
 import static frc.team1836.robot.Constants.Hardware;
 
-import com.ctre.phoenix.MotorControl.SmartMotorController.FeedbackDevice;
-import com.ctre.phoenix.MotorControl.SmartMotorController.TalonControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -44,7 +43,7 @@ public class Drive extends Subsystem {
 		rightbacktalon = new MkCANTalon(Hardware.RIGHT_BACK_TALON_ID);
 		rightfwdtalon = new MkCANTalon(Hardware.RIGHT_FWD_TALON_ID);
 
-		leftfwdtalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative);
+		leftfwdtalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		leftfwdtalon.setF(DRIVE.DRIVE_F);
 		leftfwdtalon.setP(DRIVE.DRIVE_P);
 		leftfwdtalon.setI(DRIVE.DRIVE_I);
